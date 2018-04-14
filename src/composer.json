@@ -1,0 +1,20 @@
+{
+    "name": "detrack/detrack-woocommerce",
+    "description": "Woocommerce integration for the Detrack Platform",
+    "type": "project",
+    "require": {
+        "detrack/detrack-core": "^1.1"
+    },
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Chester",
+            "email": "chester@detrack.com"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "Detrack\\DetrackWoocommerce\\" : "includes/"
+        }
+    }
+}
