@@ -38,6 +38,7 @@ class CheckoutHookManager extends AbstractHookManager
             }
         } catch (\Exception $ex) {
             $this->log('Could not post info on checkout, '.$ex->getMessage(), 'error');
+            $this->log('Delivery info: '.var_export($order->get_data(), true), 'error');
         }
     }
 }

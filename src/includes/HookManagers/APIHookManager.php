@@ -45,20 +45,23 @@ class APIHookManager extends AbstractHookManager
         $this->log('notification received');
         try {
             $postData = json_decode($request->get_body_params()['json']);
-            $logger = wc_get_logger();
-            $context = array('source' => 'detrack-woocommerce');
-            $logger->log('debug', 'delivery completed for order '.$postData->do, $context);
             if (trim($postData->reason) == '') {
                 $order = wc_get_order($postData->do);
                 if ($order == false) {
                     return new WP_REST_Response('Order not found, aborting');
+                    $this->log('order not found while processing delivery notification, :'.$postData->do, 'error');
                 }
                 $order->set_status('completed');
                 $order->save();
+                $this->log('delivery completed for order :'.$postData->do, 'debug');
             } else {
+                $this->log('body_params:'.var_export($postData, true), 'error');
+
                 return new WP_REST_Response('Reason field not blank, aborted.');
             }
         } catch (\Exception $ex) {
+            $this->log('processing delivery notification failed: '.$ex->getMessage(), 'error');
+
             return new WP_REST_Response('Error:'.$ex->getMessage());
         }
     }

@@ -100,13 +100,16 @@ class EditOrderValueHookManager extends AbstractHookManager
         }
         if ($this->integration->get_option('sync_items_on_update') == 'yes') {
             try {
-                $this->castOrderToDelivery($order_id)->save(); ?>
+                $delivery = $this->castOrderToDelivery($order_id);
+                $delivery->save(); ?>
                <div class="notice notice-success is-dismissible">
                   <p><?php esc_html_e('Items successfully updated to Detrack!', 'text-domain'); ?></p>
                </div>
               <?php
             } catch (\Exception $ex) {
                 $this->log('Failed to sync order items update, '.$ex->getMessage(), 'error');
+                $this->log('Delivery data: '.var_export($delivery, true), 'error');
+                $this->log('Order data: '.var_export(wc_get_order($order_id), true), 'error');
             }
         }
     }

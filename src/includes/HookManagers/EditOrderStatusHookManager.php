@@ -59,6 +59,8 @@ class EditOrderStatusHookManager extends AbstractHookManager
                 $delivery->save();
             } catch (\Exception $ex) {
                 $this->log('Failed to sync order restore, '.$ex->getMessage(), 'error');
+                $this->log('Delivery data: '.var_export($delivery, true), 'error');
+                $this->log('Order data: '.var_export(wc_get_order($order_id), true), 'error');
             }
         }
     }
