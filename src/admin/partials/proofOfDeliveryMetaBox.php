@@ -7,7 +7,7 @@
 ?>
 
 
-<button class="button" id="loadPODButton" data-id="<?php echo $order->get_id(); ?>" disabled>Load PODs</button>
+<button class="button" id="loadPODButton" data-id="<?php echo $order->get_id(); ?>" disabled>Load POD Photos</button>
 <button class="button" id="downloadPODPDFbutton" data-id="<?php echo $order->get_id(); ?>" disabled>Download PDF</button>
 <img id="podLoadingGif" src="<?php echo plugin_dir_url(__FILE__).'../img/loading.gif'; ?>" width="25px" height="25px" style="display:none"/>
 <br/>
