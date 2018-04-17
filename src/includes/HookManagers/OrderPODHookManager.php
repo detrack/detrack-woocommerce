@@ -87,6 +87,8 @@ class OrderPODHookManager extends AbstractHookManager
         try {
             $delivery = $this->castOrderToDelivery($order->get_id());
         } catch (\Exception $ex) {
+            $this->log('retrieving POD photos for order id '.$order->get_id(), 'error');
+            $this->log('order data: '.$order, 'error');
             echo 'something broke';
             echo $ex->getMessage();
             die;
@@ -98,6 +100,9 @@ class OrderPODHookManager extends AbstractHookManager
             } catch (\RuntimeException $ex) {
                 break;
             }
+        }
+        if ($images == []) {
+            $this->log('delivery '.$delivery->do.' has no PODs!', 'debug');
         }
         echo json_encode(array_filter($images));
         die;
