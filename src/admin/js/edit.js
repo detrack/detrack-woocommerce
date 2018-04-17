@@ -44,6 +44,12 @@
               }
             });
           }
+          if (data.length == 0) {
+            var warningText = document.createElement("span");
+            warningText.setAttribute("style", "color:red");
+            warningText.innerHTML = "No Proof Of Delivery Photos were submitted for this delivery."
+            document.getElementById("podContainer").appendChild(warningText);
+          }
         }
       );
     });
