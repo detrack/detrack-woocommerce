@@ -91,6 +91,7 @@ class OrderPODHookManager extends AbstractHookManager
             $this->log('order data: '.$order, 'error');
             echo 'something broke';
             echo $ex->getMessage();
+            http_response_code(500);
             die;
         }
         $images = [];
