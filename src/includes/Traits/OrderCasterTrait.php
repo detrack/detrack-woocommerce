@@ -38,6 +38,7 @@ trait OrderCasterTrait
         $delivery->deliver_to = implode(' ', array_filter(
               [$order->get_shipping_first_name(),
                 $order->get_shipping_last_name(), ]));
+        $delivery->phone = $order->get_billing_phone();
         //set status
         if ($this->integration->get_option('sync_order_status') == 'yes') {
             $status = $order->get_status();
