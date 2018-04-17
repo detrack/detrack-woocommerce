@@ -87,7 +87,7 @@ class OrderPODHookManager extends AbstractHookManager
         try {
             $delivery = $this->castOrderToDelivery($order->get_id());
         } catch (\Exception $ex) {
-            $this->log('retrieving POD photos for order id '.$order->get_id(), 'error');
+            $this->log('retrieving POD photos for order id '.$order->get_id().' : '.$ex->getMessage(), 'error');
             $this->log('order data: '.$order, 'error');
             echo 'something broke';
             echo $ex->getMessage();
