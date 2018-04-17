@@ -95,14 +95,16 @@ class OrderPODHookManager extends AbstractHookManager
             die;
         }
         $images = [];
+        //hotfix: unset the date attribute so you can retrieve PODs for deliveries that were delivered late
+        $delivery->date = null;
         for ($i = 1; $i <= 5; ++$i) {
             try {
                 array_push($images, base64_encode($delivery->getPODImage($i)));
-            } catch (\RuntimeException $ex) {
-                break;
+            } catch (\Exception $ex) {
+                $this->log('Message: '.$ex->getMessage(), 'debug');
             }
         }
-        if ($images == []) {
+        if (array_filter($images) == []) {
             $this->log('delivery '.$delivery->do.' has no PODs!', 'debug');
         }
         echo json_encode(array_filter($images));
