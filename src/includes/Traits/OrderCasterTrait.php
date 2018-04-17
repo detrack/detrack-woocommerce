@@ -28,13 +28,19 @@ trait OrderCasterTrait
         $delivery->do = $order->get_order_number();
         $delivery->date = $order->get_date_created()->date('Y-m-d');
         $delivery->notify_email = $order->get_billing_email();
+        $states = WC()->countries->get_states($order->get_shipping_country());
+        if (!empty($states)) {
+            $state = $states[$order->get_shipping_state()];
+        } else {
+            $state = $order->get_shipping_state();
+        }
         $delivery->address = implode(', ', array_filter(
               [$order->get_shipping_address_1(),
                 $order->get_shipping_address_2(),
                 $order->get_shipping_city(),
-                $order->get_shipping_state(),
+                $state,
                 $order->get_shipping_postcode(),
-                $order->get_shipping_country(), ]));
+                WC()->countries->countries[$order->get_shipping_country()], ]));
         $delivery->deliver_to = implode(' ', array_filter(
               [$order->get_shipping_first_name(),
                 $order->get_shipping_last_name(), ]));
