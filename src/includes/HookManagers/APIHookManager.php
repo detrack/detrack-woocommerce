@@ -45,7 +45,7 @@ class APIHookManager extends AbstractHookManager
         $this->log('notification received');
         try {
             $postData = json_decode($request->get_body_params()['json']);
-            if (trim($postData->reason) == '') {
+            if (trim($postData->status) == 'Delivered') {
                 $order = wc_get_order($postData->do);
                 if ($order == false) {
                     return new WP_REST_Response('Order not found, aborting');
@@ -55,9 +55,10 @@ class APIHookManager extends AbstractHookManager
                 $order->save();
                 $this->log('delivery completed for order :'.$postData->do, 'debug');
             } else {
+                $this->log('Status of posted data of DO'.$postData->do.' is not Delivered, aborting.');
                 $this->log('body_params:'.var_export($postData, true), 'error');
 
-                return new WP_REST_Response('Reason field not blank, aborted.');
+                return new WP_REST_Response('Status of Posted Data is not Delivered, aborting.');
             }
         } catch (\Exception $ex) {
             $this->log('processing delivery notification failed: '.$ex->getMessage(), 'error');
