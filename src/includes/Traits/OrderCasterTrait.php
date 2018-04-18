@@ -45,6 +45,8 @@ trait OrderCasterTrait
               [$order->get_shipping_first_name(),
                 $order->get_shipping_last_name(), ]));
         $delivery->phone = $order->get_billing_phone();
+        $delivery->pay_mode = $order->get_payment_method_title();
+        $delivery->pay_amt = $order->get_total();
         //set status
         if ($this->integration->get_option('sync_order_status') == 'yes') {
             $status = $order->get_status();
