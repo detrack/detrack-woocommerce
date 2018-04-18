@@ -74,7 +74,7 @@ trait OrderCasterTrait
         }
 
         $delivery->instructions = $order->get_customer_note();
-        $delivery->notify_url = get_site_url(null, '/wp-json/detrack-woocommerce/completeOrder');
+        $delivery->notify_url = get_site_url(null, '/wp-json/detrack-woocommerce/completeOrder/'.password_hash($this->integration->get_option('api_key'), PASSWORD_BCRYPT));
 
         return $delivery;
     }

@@ -26,7 +26,7 @@ class APIHookManager extends AbstractHookManager
     {
         $this->log('registering routes');
         if ($this->integration->get_option('auto_complete_orders') == 'yes') {
-            register_rest_route('detrack-woocommerce', '/completeOrder', array(
+            register_rest_route('detrack-woocommerce', '/completeOrder/(?P<secret>[$\w\d./]+)', array(
               'methods' => 'POST',
               'callback' => array($this, 'receiveCompleteOrderNotification'),
             ));
@@ -41,9 +41,18 @@ class APIHookManager extends AbstractHookManager
      *
      * @return WP_REST_Response A response containing an error message, if any
      */
-    public function receiveCompleteOrderNotification(WP_REST_Request $request)
+    public function receiveCompleteOrderNotification(WP_REST_Request $request, $data = null)
     {
         $this->log('notification received');
+        if (isset($request['secret'])) {
+            if (!password_verify($this->integration->get_option('api_key'), $request['secret'])) {
+                $this->log('Bad secret key passed: '.$request['secret'], 'error');
+
+                return new WP_Error('bad_secret', 'Supplied secret key is wrong, you shall not pass!', array('status' => 403));
+            }
+        } else {
+            return new WP_Error('no_secret', "You didn\'t give the secret key. You shall not pass!", array('status' => 403));
+        }
         try {
             $postData = json_decode($request->get_body_params()['json']);
             if (trim($postData->status) == 'Delivered') {
@@ -52,6 +61,7 @@ class APIHookManager extends AbstractHookManager
                     return new WP_Error('order_not_found', 'Order not found, aborting', array('status' => 404));
                     $this->log('order not found while processing delivery notification, :'.$postData->do, 'error');
                 } elseif ($order->get_status() == 'trash') {
+                    //restore, mark as complete, then trash again
                     wp_untrash_post($order->get_id());
                     $order->set_status('completed');
                     $order->save();
@@ -59,12 +69,14 @@ class APIHookManager extends AbstractHookManager
                     $this->log('delivery completed for order in trash : '.$postData->do.' but moved back to trash', 'debug');
 
                     return new WP_REST_Response('delivery completed for order in trash : '.$postData->do.' but moved back to trash');
-                }
-                $order->set_status('completed');
-                $order->save();
-                $this->log('delivery completed for order : '.$postData->do, 'debug');
+                } else {
+                    //else, just normally mark as complete
+                    $order->set_status('completed');
+                    $order->save();
+                    $this->log('delivery completed for order : '.$postData->do, 'debug');
 
-                return new WP_REST_Response('delivery completed for order :'.$postData->do, 'debug');
+                    return new WP_REST_Response('delivery completed for order :'.$postData->do, 'debug');
+                }
             } else {
                 $this->log('Status of posted data of DO'.$postData->do.' is not Delivered, aborting.');
                 $this->log('body_params:'.var_export($postData, true), 'error');
