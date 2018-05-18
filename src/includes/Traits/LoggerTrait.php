@@ -15,7 +15,8 @@ trait LoggerTrait
         $logLevels = implode(',', ['verbose', 'debug', 'error']);
         $setLogLevel = 'debug'; //default log level, in case settings can't be read
         try {
-            $integration = new \Detrack\DetrackWoocommerce\Detrack_WC_Integration();
+            //$integration = new \Detrack\DetrackWoocommerce\Detrack_WC_Integration();
+            $integration = new \Detrack\DetrackWoocommerce\BareIntegration();
             if ($integration->get_option('log_level') != null) {
                 $setLogLevel = $integration->get_option('log_level');
             }

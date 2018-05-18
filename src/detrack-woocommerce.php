@@ -52,8 +52,6 @@ class Detrack_WC
             \Detrack\DetrackWoocommerce\HookManagers\OrderPODHookManager::registerHooks();
             //to handle admin notifications from our extension
             add_action('admin_notices', array($this, 'notify_detrack_messages'));
-            //inject dependencies
-            $this->integration = new \Detrack\DetrackWoocommerce\Detrack_WC_Integration();
         } else {
             // throw an admin error if you like
         }

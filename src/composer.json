@@ -3,7 +3,8 @@
     "description": "Woocommerce integration for the Detrack Platform",
     "type": "project",
     "require": {
-        "detrack/detrack-core": "^1.1"
+        "detrack/detrack-core": "^1.1",
+        "symfony/expression-language": "*"
     },
     "license": "GPL-2.0-or-later",
     "authors": [
