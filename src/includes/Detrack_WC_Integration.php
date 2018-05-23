@@ -135,13 +135,16 @@ class Detrack_WC_Integration extends WC_Integration
               'default' => 'yes',
               'description' => __('Automatically set order status to complete when Detrack knows the delivery has been fufilled'),
             ),
+            /*
+            * Temporarily comment this out for now
             '1' => array(
               'type' => 'title',
               'title' => __('Advanced Sync Options', 'detrack-woocommerce'),
             ),
+            */
             'data_format' => array(
               'type' => 'data_format',
-              'title' => 'Attribute mapping',
+              'title' => 'Data Format',
               'default' => json_encode(\Detrack\DetrackWoocommerce\MappingTablePresets::getDefaultPresets()),
               'desc_tip' => 'Specify custom formulae for sending attributes to Detrack',
             ),

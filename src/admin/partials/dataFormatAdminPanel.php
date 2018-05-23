@@ -11,8 +11,10 @@
         <div id="detrack-attribute-mapping-tabs" style="background:inherit;border:0px">
 
           <input type="hidden" name="<?php echo esc_attr($field); ?>" id="detrack-attribute-mapping-master-value" value="<?php echo esc_attr(json_encode($loadedSettings)); ?>"></input>
-
-          <ul style="background-color:#e5e5e5;;border:0px;">
+          <!-- Temporarily hide Expert mode, only release in future updates
+               If you read this, feel free to re-enable this
+          !-->
+          <ul style="background-color:#e5e5e5;;border:0px;display:none">
             <li style="border:1px;background-color:#e5e5e5;"><a href="#detrack-attribute-mapping-easy">Easy modo</a></li>
             <li style="border:1px;background-color:#e5e5e5;"><a href="#detrack-attribute-mapping-expert">Expert modo</a></li>
           </ul>
