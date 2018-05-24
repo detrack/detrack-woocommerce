@@ -14,7 +14,7 @@
           <!-- Temporarily hide Expert mode, only release in future updates
                If you read this, feel free to re-enable this
           !-->
-          <ul style="background-color:#e5e5e5;;border:0px;display:none">
+          <ul style="background-color:#e5e5e5;;border:0px;">
             <li style="border:1px;background-color:#e5e5e5;"><a href="#detrack-attribute-mapping-easy">Easy modo</a></li>
             <li style="border:1px;background-color:#e5e5e5;"><a href="#detrack-attribute-mapping-expert">Expert modo</a></li>
           </ul>
@@ -48,7 +48,15 @@
                         }
                     } ?>
                   <tr>
-                    <td><?php echo $attr; ?></td>
+                    <td>
+                      <?php
+                      if (!isset(\Detrack\DetrackWoocommerce\MappingTablePresets::getData()[$attr]['protected']) || \Detrack\DetrackWoocommerce\MappingTablePresets::getData()[$attr]['protected'] != 'true') {
+                          ?>
+                        <span class="detrack-delete-attribute-icon" data-field="<?php echo $attr; ?>"><i class="fas fa-trash-alt"></i></span>
+                      <?php
+                      } ?>
+                      <?php echo $attr; ?>
+                    </td>
                     <td>
                       <select data-field="<?php echo $attr; ?>" <?php echo $disableEasy ? 'disabled="disabled"' : ''; ?>>
                         <?php
@@ -108,7 +116,7 @@
                   <?php
                   if (!isset(\Detrack\DetrackWoocommerce\MappingTablePresets::getData()[$setting]['protected']) || \Detrack\DetrackWoocommerce\MappingTablePresets::getData()[$setting]['protected'] != 'true') {
                       ?>
-                    <span class="detrack-delete-attribute-icon"><i class="fas fa-trash-alt"></i></span>
+                    <span class="detrack-delete-attribute-icon" data-field="<?php echo $setting; ?>"><i class="fas fa-trash-alt"></i></span>
                   <?php
                   } ?>
                     <?php echo $setting; ?>
