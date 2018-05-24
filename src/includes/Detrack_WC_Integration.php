@@ -41,7 +41,6 @@ class Detrack_WC_Integration extends WC_Integration
         }
         //add_action('woocommerce_update_options_integration_'.$this->id, array($this, 'process_admin_options'));
         add_action('woocommerce_update_options_integration_'.$this->id, function () {
-            $this->log(var_export(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), true));
             $this->process_admin_options();
         });
         if (!has_action('wp_ajax_detrack_test_formula')) {
