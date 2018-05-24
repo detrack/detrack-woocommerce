@@ -117,8 +117,8 @@
     if (reallyDelete) {
       var currentField = $(this).parent("h3").next("div").find(".detrack-attribute-mapping-expert-code").attr("data-field");
       //delete expert mode rows
-      $(this).parent("h3").remove();
-      $(this).parent("h3").next("div").remove();
+      $(this).parent("h3").first().next("div").first().remove();
+      $(this).parent("h3").first().remove();
       //delete easy mode row
       $("#detrack-attribute-mapping-easy").find("select[data-field='" + currentField + "']").parents("#detrack-attribute-mapping-easy tr").remove();
       $("#detrack-attribute-mapping-expert-accordion").accordion("refresh");
