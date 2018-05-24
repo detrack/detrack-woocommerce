@@ -115,10 +115,10 @@
     event.preventDefault();
     var reallyDelete = confirm("Are you sure you want to delete this?");
     if (reallyDelete) {
-      var currentField = $(this).parent("h3").next("div").find(".detrack-attribute-mapping-expert-code").attr("data-field");
+      var currentField = $(this).attr("data-field");
       //delete expert mode rows
-      $(this).parent("h3").first().next("div").first().remove();
-      $(this).parent("h3").first().remove();
+      $("#detrack-attribute-mapping-expert .detrack-delete-attribute-icon[data-field='" + currentField + "']").parent("h3").first().next("div").first().remove();
+      $("#detrack-attribute-mapping-expert .detrack-delete-attribute-icon[data-field='" + currentField + "']").parent("h3").first().remove();
       //delete easy mode row
       $("#detrack-attribute-mapping-easy").find("select[data-field='" + currentField + "']").parents("#detrack-attribute-mapping-easy tr").remove();
       $("#detrack-attribute-mapping-expert-accordion").accordion("refresh");
