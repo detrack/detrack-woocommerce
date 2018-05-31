@@ -31,7 +31,7 @@ Check out Detrack’s key features on a [Quick Tour](https://www.detrack.com/tou
 Once the plugin is successfully installed and configured, new orders on your WooCommerce store will automatically be sent to your Detrack dashboard to start facilitating deliveries.
 
 By default, only the Delivery Address and Customer Name will be reflected on your Detrack dashboard, but you can easily opt for more information to appear by selecting the necessary options in the settings.
-View the full tutorial on how to [integrate your WooCommerce store with Detrack here](https://www.detrack.com/quick-start-guide/).
+View the full tutorial on how to [integrate your WooCommerce store with Detrack here](https://www.detrack.com/tutorials/woocommerce-integration/).
 
 
 == Installation ==
