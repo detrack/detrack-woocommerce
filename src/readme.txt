@@ -8,19 +8,31 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Never lose track of your WooCommerce Orders with Detrack Proof of Delivery. Let your customers track your deliveries live and rest assured with automatic Proof of Deliveries.
+Detrack Real-time Vehicle Tracking & Electronic Proof of Delivery (E-POD) for WooCommerce
 
 == Description ==
 
-Detrack is a Proof of Delivery and a Live Delivery Tracking solution for both E-Commerce stores and brick-and-mortar stores. This plugin allows you to integrate your WooCommerce storefront with your Detrack Dashboard.
+Want vital delivery information of all your orders at your fingertips?
 
-For you to use this plugin, you must have already set up a free account on [Detrack](https://www.detrack.com) and understand the basic functions of our Dashboard.
-If you are a completely new user, please look at the [quick tour](https://www.detrack.com/tour) of our features and the [quick start guide](https://www.detrack.com/quick-start-guide).
+Why not allow your customers to track their WooCommerce orders themselves?
 
-Once installed and properly configured, new orders on your WooCommerce store will automatically be sent to your Detrack Dashboard for you to dispatch jobs to your drivers.
-While the default settings only send the shipping address and your customer's name to the Dashboard, you can configure the settings to have more information appear in your dashboard.
+Detrack is a real-time vehicle tracking and proof of delivery solution that provides both you and your customers the ability to track their orders and have full visibility of the entire delivery process.
 
-For a full tutorial, please visit the [following link](https://www.detrack.com/tutorials/woocommerce-integration/) on our website.
+Knowing exactly where your orders are at any time will now allow you to answer customers’ queries or resolve delivery issues both efficiently and confidently.
+
+The Detrack plugin allows you to seamlessly integrate your WooCommerce store with your Detrack dashboard.
+
+To use the plugin, simply set up a [free Detrack account](https://app.detrack.com/sign_up).
+
+Completely new to Detrack? We got you.
+
+Check out Detrack’s key features on a [Quick Tour](https://www.detrack.com/tour/) or see how you can get started in no time with our [Quick Start Guide](https://www.detrack.com/quick-start-guide/).
+
+Once the plugin is successfully installed and configured, new orders on your WooCommerce store will automatically be sent to your Detrack dashboard to start facilitating deliveries.
+
+By default, only the Delivery Address and Customer Name will be reflected on your Detrack dashboard, but you can easily opt for more information to appear by selecting the necessary options in the settings.
+View the full tutorial on how to [integrate your WooCommerce store with Detrack here](https://www.detrack.com/quick-start-guide/).
+
 
 == Installation ==
 
