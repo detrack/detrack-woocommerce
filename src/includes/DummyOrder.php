@@ -29,7 +29,17 @@ class DummyOrder
     public function __get($key)
     {
         if (isset($this->data[$key])) {
-            if (is_array($this->data[$key])) {
+            if ($key == 'meta_data') {
+                $metaData = json_decode(json_encode($this->data[$key]));
+                $returnArray = [];
+                foreach ($metaData as $metaDataEntry) {
+                    if (!is_null($metaDataEntry->key) && !is_null($metaDataEntry->value)) {
+                        $returnArray[$metaDataEntry->key] = $metaDataEntry->value;
+                    }
+                }
+
+                return json_decode(json_encode($returnArray));
+            } elseif (is_array($this->data[$key])) {
                 return json_decode(json_encode($this->data[$key]));
             } else {
                 return $this->data[$key];
