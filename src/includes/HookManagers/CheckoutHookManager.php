@@ -20,13 +20,28 @@ class CheckoutHookManager extends AbstractHookManager
      * @param array    $posted_data the checkout form post data, as passed by WooCommerce
      * @param WC_Order $order       the new order object, as passed by WooCommerce
      */
-    public function woocommerce_checkout_order_processed($order_id, $posted_data, $order)
+    public function woocommerce_checkout_order_processed($order_id = null, $posted_data = null, $order = null)
     {
         $this->log(__FUNCTION__);
         if ($this->integration->get_option('api_key') == null) {
             $this->log('API Key not defined, aborting', 'error');
 
             return;
+        }
+        if ($order_id == null) {
+            $this->log('order_id in order checkout hook is NULL for some reason. Aborting!');
+            $this->log(var_export([$order_id, $posted_data, $order], true), 'warning');
+
+            return;
+        } else {
+            if ($posted_data == null) {
+                $this->log('posted_data in order checkout hook is NULL! ', 'warning');
+                $this->log(var_export([$order_id, $posted_data, $order], true), 'warning');
+            }
+            if ($order == null) {
+                $this->log('order in order checkout hook is NULL! ', 'warning');
+                $this->log(var_export([$order_id, $posted_data, $order], true), 'warning');
+            }
         }
         try {
             if ($this->integration->get_option('sync_on_checkout') == 'yes') {
