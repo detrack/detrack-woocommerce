@@ -44,6 +44,11 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.1 =
+- Expert Mode: Expert Mode Data Formatting allows you to access the order objects directly and implement your own custom formulae to customise how the data should be sent to Detrack.
+- Fixed a bug where posting null data in the checkout hook will cause the plugin to crash.
+- Fixed a bug where customising the date format will rarely cause the plugin to crash.
+
 = 1.0 =
 * Initial Public Release
 
