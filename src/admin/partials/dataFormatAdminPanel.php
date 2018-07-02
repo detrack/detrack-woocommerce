@@ -107,7 +107,7 @@
             </table>
           </div>
           <div id="detrack-attribute-mapping-expert" style="">
-            <div><h4>Use formulae to implement your custom logic in representing how the data should be modified and formatted before being sent to Detrack. Only change this if you know what you're doing!</h4></div>
+            <div><h4>Use formulae to implement your custom logic in representing how the data should be modified and formatted before being sent to Detrack. Only change this when directed by support.</h4></div>
             <div id="detrack-attribute-mapping-expert-accordion">
               <?php
               foreach ($loadedSettings as $setting => $formula) {
