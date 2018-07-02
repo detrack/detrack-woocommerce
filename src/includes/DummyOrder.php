@@ -37,6 +37,10 @@ class DummyOrder
                         $returnArray[$metaDataEntry->key] = $metaDataEntry->value;
                     }
                 }
+                if ($returnArray == []) {
+                    //return DummyNull in an attempt to prevent "cannot access property of null object" errors
+                    return new DummyNull();
+                }
 
                 return json_decode(json_encode($returnArray));
             } elseif (is_array($this->data[$key])) {
@@ -45,7 +49,9 @@ class DummyOrder
                 return $this->data[$key];
             }
         } else {
-            return null;
+            //return DummyNull in an attempt to prevent "cannot access property of null object" errors
+            //@see DummyNull::class
+            return new DummyNull();
         }
     }
 }
