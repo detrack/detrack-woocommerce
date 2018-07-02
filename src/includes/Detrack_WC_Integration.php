@@ -321,7 +321,7 @@ class Detrack_WC_Integration extends WC_Integration
             ])
           );
 
-            if ($testAttr == 'date' && gettype($result) == 'object') {
+            if ($testAttr == 'date' && $result instanceof Carbon) {
                 $result = $result->format('Y-m-d');
             }
             echo $result;
