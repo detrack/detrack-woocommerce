@@ -19,7 +19,7 @@ class Detrack_WC_Integration extends WC_Integration
 {
     use \Detrack\DetrackWoocommerce\Traits\LoggerTrait;
     use \Detrack\DetrackWoocommerce\Traits\InjectIntegrationTrait;
-    use \Detrack\DetrackWOocommerce\Traits\OrderCasterTrait;
+    use \Detrack\DetrackWoocommerce\Traits\OrderCasterTrait;
 
     /**
      * Init and hook in the integration.

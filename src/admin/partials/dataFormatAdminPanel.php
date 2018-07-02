@@ -70,7 +70,7 @@
                             }
                         } else {
                             //$this->log('Generic Formula used!');
-                            foreach (\Detrack\DetrackWOocommerce\MappingTablePresets::getGenericFormulae() as $genericFormula) {
+                            foreach (\Detrack\DetrackWoocommerce\MappingTablePresets::getGenericFormulae() as $genericFormula) {
                                 ?>
                             <option value="<?php echo $genericFormula; ?>" <?php echo ($genericFormula == trim($formula) || ((trim($formula) == '' || $disableEasy) && isset($preset['default']) && $preset['default'] == 'true')) ? 'selected="selected"' : ''; ?>><?php echo $genericFormula; ?></option>
                             <?php
@@ -94,7 +94,7 @@
                   <td>
                     <select>
                       <?php
-                      foreach (\Detrack\DetrackWOocommerce\MappingTablePresets::getGenericFormulae() as $genericFormula) {
+                      foreach (\Detrack\DetrackWoocommerce\MappingTablePresets::getGenericFormulae() as $genericFormula) {
                           ?>
                         <option value="<?php echo $genericFormula; ?>"><?php echo $genericFormula; ?></option>
                         <?php
