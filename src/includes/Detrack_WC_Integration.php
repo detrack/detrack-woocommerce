@@ -30,7 +30,7 @@ class Detrack_WC_Integration extends WC_Integration
         global $wp_filter;
         $this->id = 'detrack-woocommerce';
         $this->method_title = __('Detrack', 'detrack-woocommerce');
-        $this->method_description = __('Integrate your WooCommerce store with Detrack to automatically send delivery jobs to your drivers <br> <strong>Alpha Test:</strong> Some irregularities may occur, and please check for updates often', 'detrack-woocommerce');
+        $this->method_description = __('Integrate your WooCommerce store with Detrack to automatically send delivery jobs to your drivers', 'detrack-woocommerce');
         // Load the settings.
         $this->init_form_fields();
         $this->init_settings();
