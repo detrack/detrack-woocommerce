@@ -222,7 +222,12 @@ class Detrack_WC_Integration extends WC_Integration
         if ($loadedSettings == [] || $loadedSettings == '' || $loadedSettings == null) {
             $loadedSettings = \Detrack\DetrackWoocommerce\MappingTablePresets::getDefaultPresets();
         }
-        $defaultTestOrder = wc_get_orders(['limit' => 1])[0];
+        $testOrders = wc_get_orders(['limit' => 1]);
+        if (isset($testOrders) && count($testOrders) != 0) {
+            $defaultTestOrder = $testOrders[0];
+        } else {
+            $defaultTestOrder = null;
+        }
         include __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'admin'.DIRECTORY_SEPARATOR.'partials'.DIRECTORY_SEPARATOR.'dataFormatAdminPanel.php';
 
         return ob_get_clean();
