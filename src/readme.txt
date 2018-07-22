@@ -44,6 +44,10 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.1.1 =
+- Fixed a bug where opening the Integration settings without any orders in the WC database will cause the settings page to stop rendering.
+- Removed alpha test note
+
 = 1.1 =
 - Expert Mode: Expert Mode Data Formatting allows you to access the order objects directly and implement your own custom formulae to customise how the data should be sent to Detrack.
 - Fixed a bug where posting null data in the checkout hook will cause the plugin to crash.
