@@ -10,7 +10,7 @@
  * Plugin Name: Detrack Woocommerce
  * Plugin URI:  https://www.detrack.com/tutorials/woocommerce-integration/
  * Description: Integration with the Detrack API
- * Version:     1.1
+ * Version:     1.1.1
  * Author:      Detrack
  * Author URI:  https://detrack.com
  * Text Domain: detrack-woocommerce
