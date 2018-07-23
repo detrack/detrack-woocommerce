@@ -44,6 +44,9 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.1.2 =
+- Fixed a bug where not having a country set in the order will cause the plugin to crash
+
 = 1.1.1 =
 - Fixed a bug where opening the Integration settings without any orders in the WC database will cause the settings page to stop rendering.
 - Removed alpha test note
