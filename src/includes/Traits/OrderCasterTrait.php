@@ -79,7 +79,7 @@ trait OrderCasterTrait
                 'stateFull' => isset(WC()->countries->get_states($order->get_shipping_country())[$order->get_shipping_state()]) ? WC()->countries->get_states($order->get_shipping_country())[$order->get_shipping_state()] : $order->get_shipping_state(),
                 'postalCode' => $order->get_shipping_postcode(),
                 'country' => $order->get_shipping_country(),
-                'countryFull' => WC()->countries->countries[$order->get_shipping_country()],
+                'countryFull' => isset(WC()->countries->countries[$order->get_shipping_country()]) ? WC()->countries->countries[$order->get_shipping_country()] : $order->get_shipping_country(),
               ]);
             }
             try {
