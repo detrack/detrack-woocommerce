@@ -196,6 +196,14 @@ class Detrack_WC_Integration extends WC_Integration
           <p>A new version of the Detrack Plugin (<strong><span id="newVersionNumber"></span></strong>) is available. Please update from our website.</p>
         </div>
         <?php
+        if (version_compare(phpversion(), '5.6', '<')) {
+            ?>
+        <div class="notice notice-error">
+          <strong> Fatal error: </strong> Your PHP version is <?php echo phpversion(); ?>. Detrack requires at least PHP 5.6 - please contact your hosting provider to update your version of PHP!
+          <br>You should <em>not</em> be using versions of PHP older than 5.6 anyway; official support has been dropped for these old versions for a long time.
+        </div>
+        <?php
+        }
 
         return ob_get_clean();
     }
