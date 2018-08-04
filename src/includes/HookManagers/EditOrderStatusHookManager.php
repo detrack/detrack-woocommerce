@@ -11,6 +11,8 @@ class EditOrderStatusHookManager extends AbstractHookManager
         add_action('wp_trash_post', array($self, 'wp_trash_post'));
         //restoration
         add_action('untrash_post', array($self, 'untrash_post'));
+        //internal hook used by woocommerce for any type of change
+        add_action('woocommerce_order_status_changed', array($self, 'woocommerce_order_status_changed'), 9001);
     }
 
     /** Removes from detrack if order is trashed
@@ -63,5 +65,33 @@ class EditOrderStatusHookManager extends AbstractHookManager
                 $this->log('Order data: '.var_export(wc_get_order($order_id), true), 'error');
             }
         }
+    }
+
+    /** Hotfix for order status sync bug - just sync all possible permutations
+     *
+     */
+    public function woocommerce_order_status_changed($order_id, $oldStatus = null, $newStatus = null, $order = null)
+    {
+        $this->log(__FUNCTION__);
+        if ($oldStatus == 'trash' || $newStatus == 'trash') {
+            //let wp_trash_post and untrash_post handle instead
+            $this->log('status change is trash/untrash, aborting');
+
+            return;
+        } elseif ($order == null) {
+            $order = wc_get_order($order_id);
+            if ($order == null) {
+                $this->log('order is null, aborting');
+
+                return;
+            }
+        }
+        if ($oldStatus == null) {
+            $this->log('warning: oldStatus is null!');
+        } elseif ($newStatus == null) {
+            $this->log('warning: newStatus is null!');
+        }
+        $delivery = $this->castOrderToDelivery($order_id);
+        $delivery->save();
     }
 }
