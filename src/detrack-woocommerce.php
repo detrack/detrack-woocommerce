@@ -30,6 +30,7 @@ class Detrack_WC
     public function __construct()
     {
         add_action('plugins_loaded', array($this, 'init'));
+        add_action('plugins_loaded', array($this, 'upgrade'));
     }
 
     /**
@@ -80,6 +81,20 @@ class Detrack_WC
               <p><?php esc_html_e('Successfully posted to detrack!', 'text-domain'); ?></p>
            </div>
           <?php
+        }
+    }
+
+    /*
+     * Runs the upgrader
+     *
+     * Not currently used, but may be used in later versions.
+     *
+    */
+    public function upgrade()
+    {
+        $lastUpgraded = get_option('detrack_woocommerce_last_upgraded_version');
+        if ($lastUpgraded == null) {
+            $lastUpgraded = '1.1.2';
         }
     }
 }
