@@ -58,8 +58,9 @@ class APIHookManager extends AbstractHookManager
             if (trim($postData->status) == 'Delivered') {
                 $order = wc_get_order($postData->do);
                 if ($order == null) {
-                    return new WP_Error('order_not_found', 'Order not found, aborting', array('status' => 404));
                     $this->log('order not found while processing delivery notification, :'.$postData->do, 'error');
+
+                    return new WP_Error('order_not_found', 'Order not found, aborting', array('status' => 404));
                 } elseif ($order->get_status() == 'trash') {
                     //restore, mark as complete, then trash again
                     wp_untrash_post($order->get_id());
