@@ -83,6 +83,12 @@
                         <span><br>Custom code written - see expert mode</span>
                       <?php
                       } ?>
+                      <?php
+                      if ($attr == 'do') {
+                          ?>
+                        <span><br>Warning - changing your DO to be anything other than Order ID will prevent Detrack from marking your WooCommerce Orders as complete.</span>
+                        <?php
+                      } ?>
                     </td>
                   </tr>
                 <?php
