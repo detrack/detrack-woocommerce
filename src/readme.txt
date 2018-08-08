@@ -44,6 +44,11 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.2.0 =
+- Fixed a bug where cancelled order status is not synced when the customer abandons the payment with Paypal
+- Add partial support for customising DO numbers
+- Other minor bug fixers
+
 = 1.1.2 =
 - Fixed a bug where not having a country set in the order will cause the plugin to crash
 
