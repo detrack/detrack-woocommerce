@@ -229,6 +229,23 @@ class Detrack_WC_Integration extends WC_Integration
         $this->log('loaded settings: '.var_export($loadedSettings, true));
         if ($loadedSettings == [] || $loadedSettings == '' || $loadedSettings == null) {
             $loadedSettings = \Detrack\DetrackWoocommerce\MappingTablePresets::getDefaultPresets();
+        } else {
+            //check if protected attributes are missing
+            foreach (\Detrack\DetrackWoocommerce\MappingTablePresets::getData() as $attr => $attrValue) {
+                $this->log(var_export($attrValue, true));
+                if (isset($attrValue['protected']) && $attrValue['protected'] == 'true') {
+                    if (!isset($loadedSettings[$attr])) {
+                        //set the default
+                        foreach ($attrValue['presets'] as $protectedSettingPreset) {
+                            if ($protectedSettingPreset['default'] == 'true') {
+                                $loadedSettings[$attr] = $protectedSettingPreset['value'];
+                            }
+                        }
+                        //if no presets were marked as default, set the first value as the default
+                        $loadedSettings[$attr] = $attrValue['presets'][0]['value'];
+                    }
+                }
+            }
         }
         $testOrders = wc_get_orders(['limit' => 1]);
         if (isset($testOrders) && count($testOrders) != 0) {

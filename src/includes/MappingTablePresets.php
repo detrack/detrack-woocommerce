@@ -51,6 +51,10 @@ class MappingTablePresets
          * @see admin/partials/dataFormatAdminPanel.php Where this is used
          */
         $data = [
+          'do' => [
+            'presets' => $morphGenericFormulae('order.id'),
+            'protected' => 'true',
+          ],
           'date' => [
             'presets' => [
               [
