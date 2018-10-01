@@ -226,13 +226,13 @@ class Detrack_WC_Integration extends WC_Integration
         ob_start();
         $field = $this->plugin_id.$this->id.'_'.$key;
         $loadedSettings = json_decode($this->get_option($key), true);
-        $this->log('loaded settings: '.var_export($loadedSettings, true));
+        //$this->log('loaded settings: '.var_export($loadedSettings, true));
         if ($loadedSettings == [] || $loadedSettings == '' || $loadedSettings == null) {
             $loadedSettings = \Detrack\DetrackWoocommerce\MappingTablePresets::getDefaultPresets();
         } else {
             //check if protected attributes are missing
             foreach (\Detrack\DetrackWoocommerce\MappingTablePresets::getData() as $attr => $attrValue) {
-                $this->log(var_export($attrValue, true));
+                //$this->log(var_export($attrValue, true));
                 if (isset($attrValue['protected']) && $attrValue['protected'] == 'true') {
                     if (!isset($loadedSettings[$attr])) {
                         //set the default
@@ -350,11 +350,13 @@ class Detrack_WC_Integration extends WC_Integration
               'order' => new DummyOrder($testOrder),
             ])
           );
-
             if ($testAttr == 'date' && $result instanceof Carbon) {
                 $result = $result->format('Y-m-d');
+            } elseif (is_scalar($result)) {
+                echo $result;
+            } else {
+                print_r($result);
             }
-            echo $result;
         } catch (\Exception $ex) {
             http_response_code(500);
             echo 'Exception: '.($ex->getMessage() == '' ? $ex->__toString() : $ex->getMessage());
