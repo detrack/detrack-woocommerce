@@ -158,11 +158,18 @@ trait OrderCasterTrait
             $formula = $mappingTable->$key;
         }
         $expressionLanguage = new ExpressionLanguage();
+        try {
+            $expressionLanguage->registerProvider(new \Detrack\DetrackWoocommerce\DetrackExpressionLanguageProvider());
+        } catch (\Exception $ex) {
+            $this->log($ex->getMessage(), 'error');
+        }
         $result = $expressionLanguage->evaluate(
           $formula, $variables
         );
-        if ($key == 'date' && gettype($result) == 'object' && strpos(strtolower(get_class($result)), 'carbon') !== false) {
+        if ($testAttr == 'date' || $result instanceof Carbon) {
             $result = $result->format('Y-m-d');
+        } else {
+            $result = print_r($result, true);
         }
 
         return $result;

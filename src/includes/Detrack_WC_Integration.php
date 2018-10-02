@@ -343,6 +343,11 @@ class Detrack_WC_Integration extends WC_Integration
         }
         $el = new ExpressionLanguage();
         try {
+            $el->registerProvider(new \Detrack\DetrackWoocommerce\DetrackExpressionLanguageProvider());
+        } catch (\Exception $ex) {
+            $this->log($ex->getMessage(), 'error');
+        }
+        try {
             $result = $el->evaluate(
             stripslashes($testForumla),
             array_merge($extraVars, [
@@ -350,8 +355,8 @@ class Detrack_WC_Integration extends WC_Integration
               'order' => new DummyOrder($testOrder),
             ])
           );
-            if ($testAttr == 'date' && $result instanceof Carbon) {
-                $result = $result->format('Y-m-d');
+            if ($testAttr == 'date' || $result instanceof Carbon) {
+                echo $result->format('Y-m-d');
             } elseif (is_scalar($result)) {
                 echo $result;
             } else {
