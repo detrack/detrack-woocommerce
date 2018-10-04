@@ -10,7 +10,7 @@ use WC_Order;
 class DummyOrder
 {
     use \Detrack\DetrackWoocommerce\Traits\LoggerTrait;
-    protected $data;
+    public $data;
 
     public function __construct(WC_Order $order)
     {
