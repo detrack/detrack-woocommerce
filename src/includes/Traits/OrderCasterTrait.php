@@ -166,8 +166,10 @@ trait OrderCasterTrait
         $result = $expressionLanguage->evaluate(
           $formula, $variables
         );
-        if ($testAttr == 'date' || $result instanceof Carbon) {
+        if ($result instanceof Carbon) {
             $result = $result->format('Y-m-d');
+        } elseif (is_scalar($result)) {
+            $result = $result;
         } else {
             $result = print_r($result, true);
         }

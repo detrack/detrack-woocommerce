@@ -355,7 +355,7 @@ class Detrack_WC_Integration extends WC_Integration
               'order' => new DummyOrder($testOrder),
             ])
           );
-            if ($testAttr == 'date' || $result instanceof Carbon) {
+            if ($result instanceof Carbon) {
                 echo $result->format('Y-m-d');
             } elseif (is_scalar($result)) {
                 echo $result;
