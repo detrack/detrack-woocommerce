@@ -56,10 +56,10 @@ class MappingTablePresets
               [
                 'name' => 'Do not post to Detrack if order is local pickup',
                 'value' => <<<'EOT'
-array_values(order.data["shipping_lines"])[0].get_method_id() == "local_pickup" ? true : false
+array_values(order.data['shipping_lines'])[0].get_method_id() == 'local_pickup' ? true : false
 EOT
                 ,
-                'default' => 'false',
+                'default' => 'true',
               ],
               [
                 'name' => 'Post everything',
