@@ -44,6 +44,9 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.3.1 =
+- Fixed a bug where testing the date field in expert mode will cause a crash
+
 = 1.3.0 =
 - Added support for PHP string and array functions in the Attribute Mapping Expert Mode
 - Fixed a bug where retrieving order metadata in the Attribute Mapping Expert Mode test console would cause an error
