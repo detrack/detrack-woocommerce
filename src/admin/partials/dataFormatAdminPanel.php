@@ -52,27 +52,27 @@
                       <?php
                       if (!isset(\Detrack\DetrackWoocommerce\MappingTablePresets::getData()[$attr]['protected']) || \Detrack\DetrackWoocommerce\MappingTablePresets::getData()[$attr]['protected'] != 'true') {
                           ?>
-                        <span class="detrack-delete-attribute-icon" data-field="<?php echo $attr; ?>"><i class="fas fa-trash-alt"></i></span>
+                        <span class="detrack-delete-attribute-icon" data-field="<?php echo esc_attr($attr); ?>"><i class="fas fa-trash-alt"></i></span>
                       <?php
                       } ?>
                       <?php echo $attr; ?>
                     </td>
                     <td>
-                      <select data-field="<?php echo $attr; ?>" <?php echo $disableEasy ? 'disabled="disabled"' : ''; ?>>
+                      <select data-field="<?php echo esc_attr($attr); ?>" <?php echo $disableEasy ? 'disabled="disabled"' : ''; ?>>
                         <?php
                         if (isset(\Detrack\DetrackWoocommerce\MappingTablePresets::getData()[$attr]['presets'])) {
                             foreach (\Detrack\DetrackWoocommerce\MappingTablePresets::getData()[$attr]['presets'] as $preset) {
                                 if ($attr == 'instructions') {
                                     //$this->log(json_encode($preset));
                                 } ?>
-                            <option value="<?php echo $preset['value']; ?>" <?php echo ($preset['value'] == trim($formula) || ((trim($formula) == '' || $disableEasy) && isset($preset['default']) && $preset['default'] == 'true')) ? 'selected="selected"' : ''; ?>><?php echo $preset['name']; ?></option>
+                            <option value="<?php echo esc_attr($preset['value']); ?>" <?php echo ($preset['value'] == trim($formula) || ((trim($formula) == '' || $disableEasy) && isset($preset['default']) && $preset['default'] == 'true')) ? 'selected="selected"' : ''; ?>><?php echo $preset['name']; ?></option>
                           <?php
                             }
                         } else {
                             //$this->log('Generic Formula used!');
                             foreach (\Detrack\DetrackWoocommerce\MappingTablePresets::getGenericFormulae() as $genericFormula) {
                                 ?>
-                            <option value="<?php echo $genericFormula; ?>" <?php echo ($genericFormula == trim($formula) || ((trim($formula) == '' || $disableEasy) && isset($preset['default']) && $preset['default'] == 'true')) ? 'selected="selected"' : ''; ?>><?php echo $genericFormula; ?></option>
+                            <option value="<?php echo esc_attr($genericFormula); ?>" <?php echo ($genericFormula == trim($formula) || ((trim($formula) == '' || $disableEasy) && isset($preset['default']) && $preset['default'] == 'true')) ? 'selected="selected"' : ''; ?>><?php echo $genericFormula; ?></option>
                             <?php
                             }
                         } ?>
@@ -106,7 +106,7 @@
                       <?php
                       foreach (\Detrack\DetrackWoocommerce\MappingTablePresets::getGenericFormulae() as $genericFormula) {
                           ?>
-                        <option value="<?php echo $genericFormula; ?>"><?php echo $genericFormula; ?></option>
+                        <option value="<?php echo esc_attr($genericFormula); ?>"><?php echo $genericFormula; ?></option>
                         <?php
                       }
                       ?>
@@ -126,7 +126,7 @@
                   <?php
                   if (!isset(\Detrack\DetrackWoocommerce\MappingTablePresets::getData()[$setting]['protected']) || \Detrack\DetrackWoocommerce\MappingTablePresets::getData()[$setting]['protected'] != 'true') {
                       ?>
-                    <span class="detrack-delete-attribute-icon" data-field="<?php echo $setting; ?>"><i class="fas fa-trash-alt"></i></span>
+                    <span class="detrack-delete-attribute-icon" data-field="<?php echo esc_attr($setting); ?>"><i class="fas fa-trash-alt"></i></span>
                   <?php
                   } ?>
                     <?php echo $setting; ?>
@@ -152,7 +152,7 @@
                           $disableExpert = false;
                       }
                   } ?>
-                    <textarea class="detrack-attribute-mapping-expert-code" data-field="<?php echo $setting; ?>" rows="7" <?php echo $disableExpert ? 'disabled="disabled"' : ''; ?>><?php echo $formula; ?></textarea>
+                    <textarea class="detrack-attribute-mapping-expert-code" data-field="<?php echo esc_attr($setting); ?>" rows="7" <?php echo $disableExpert ? 'disabled="disabled"' : ''; ?>><?php echo $formula; ?></textarea>
                     <span class="detrack-attribute-mapping-expert-code-preset-code-warning" style="<?php echo !$disableExpert ? 'display:none' : ''; ?>"><a><i class="fas fa-lock"></i></a>Preset Code - click on lock to make changes</span>
                     <span class="detrack-attribute-mapping-expert-code-custom-code-info" style="<?php echo $disableExpert ? 'display:none' : ''; ?>"><a><i class="fas fa-lock-open"></i></a>Custom Code in use - click on lock to discard changes and reset to default</span>
                   </div>
@@ -186,7 +186,7 @@
                     <div class="detrack-attribute-mapping-expert-instructions" style="width:100%;display:block">
                       <h2 style="font-size:default">Test console</h2>
                       <div>
-                        Test Order ID<input type="text" size="3" value="<?php echo isset($defaultTestOrder) ? $defaultTestOrder->get_id() : ''; ?>"/> <button class="button detrack-attribute-mapping-expert-test" type="button">Test</button><img src="<?php echo plugin_dir_url(__FILE__).'../img/loading.gif'; ?>" width="25px" height="25px" style="display:none"/>
+                        Test Order ID<input type="text" size="3" value="<?php echo isset($defaultTestOrder) ? esc_attr($defaultTestOrder->get_id()) : ''; ?>"/> <button class="button detrack-attribute-mapping-expert-test" type="button">Test</button><img src="<?php echo plugin_dir_url(__FILE__).'../img/loading.gif'; ?>" width="25px" height="25px" style="display:none"/>
                         <?php
                         if (!isset($defaultTestOrder) || count($defaultTestOrder) == 0) {
                             ?>
