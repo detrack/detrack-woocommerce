@@ -83,6 +83,12 @@ trait OrderCasterTrait
               ]);
             }
             try {
+                //early return: see if the "ignore" setting evaluates to true
+                if ($this->mapAttribute('ignore', $extraVars) === true || $this->mapAttribute('ignore', $extraVars) === 'true') {
+                    $this->log('Ignore expression followed for order id '.$order->get_order_number(), 'info');
+                    //dont post this order, immediately exit.
+                    return null;
+                }
                 $delivery->$mappingKey = $this->mapAttribute($mappingKey, $extraVars);
             } catch (\Exception $ex) {
                 $this->log('ExpressionLanguage syntax failed for key '.$mappingKey.$ex->getMessage(), 'error');

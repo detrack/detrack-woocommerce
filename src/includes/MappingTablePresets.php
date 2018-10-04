@@ -51,6 +51,23 @@ class MappingTablePresets
          * @see admin/partials/dataFormatAdminPanel.php Where this is used
          */
         $data = [
+          'ignore' => [
+            'presets' => [
+              [
+                'name' => 'Do not post to Detrack if order is local pickup',
+                'value' => <<<'EOT'
+array_values(order.data["shipping_lines"])[0].get_method_id() == "local_pickup" ? true : false
+EOT
+                ,
+                'default' => 'false',
+              ],
+              [
+                'name' => 'Post everything',
+                'value' => 'false',
+              ],
+            ],
+            'protected' => 'true',
+          ],
           'do' => [
             'presets' => $morphGenericFormulae('order.id'),
             'protected' => 'true',

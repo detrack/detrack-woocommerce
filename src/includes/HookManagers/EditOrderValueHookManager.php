@@ -50,7 +50,11 @@ class EditOrderValueHookManager extends AbstractHookManager
             return;
         }
         try {
-            $this->castOrderToDelivery($order)->save();
+            $delivery = $this->castOrderToDelivery($order);
+            if ($delivery == null) {
+                return;
+            }
+            $delivery->save();
             $this->notify_successful_post();
         } catch (\Exception $ex) {
             $this->log('Manual posting to Detrack via action button failed, '.$ex->getMessage(), 'error');
@@ -75,7 +79,11 @@ class EditOrderValueHookManager extends AbstractHookManager
         }
         if ($this->integration->get_option('sync_on_update') == 'yes') {
             try {
-                $this->castOrderToDelivery($order_id)->save();
+                $delivery = $this->castOrderToDelivery($order_id);
+                if ($delivery == null) {
+                    return;
+                }
+                $delivery->save();
                 $this->notify_successful_post();
             } catch (\Exception $ex) {
                 $this->log('Failed to sync order update, '.$ex->getMessage(), 'error');
@@ -101,6 +109,9 @@ class EditOrderValueHookManager extends AbstractHookManager
         if ($this->integration->get_option('sync_items_on_update') == 'yes') {
             try {
                 $delivery = $this->castOrderToDelivery($order_id);
+                if ($delivery == null) {
+                    return;
+                }
                 $delivery->save(); ?>
                <div class="notice notice-success is-dismissible">
                   <p><?php esc_html_e('Items successfully updated to Detrack!', 'text-domain'); ?></p>

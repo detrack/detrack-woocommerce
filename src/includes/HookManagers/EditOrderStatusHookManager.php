@@ -58,6 +58,9 @@ class EditOrderStatusHookManager extends AbstractHookManager
         if (get_post_type($order_id) == 'shop_order') {
             try {
                 $delivery = $this->castOrderToDelivery($order_id);
+                if ($delivery == null) {
+                    return;
+                }
                 $delivery->save();
             } catch (\Exception $ex) {
                 $this->log('Failed to sync order restore, '.$ex->getMessage(), 'error');
@@ -92,6 +95,9 @@ class EditOrderStatusHookManager extends AbstractHookManager
             $this->log('warning: newStatus is null!');
         }
         $delivery = $this->castOrderToDelivery($order_id);
+        if ($delivery == null) {
+            return;
+        }
         $delivery->save();
     }
 }

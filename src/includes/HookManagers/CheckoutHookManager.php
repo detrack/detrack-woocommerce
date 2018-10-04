@@ -46,6 +46,9 @@ class CheckoutHookManager extends AbstractHookManager
         try {
             if ($this->integration->get_option('sync_on_checkout') == 'yes') {
                 $delivery = $this->castOrderToDelivery($order_id);
+                if ($delivery == null) {
+                    return;
+                }
                 $order = wc_get_order($order_id);
                 //set the status manually, because for some payment methods the status is wrong
                 $delivery->status = $this->integration->get_option('new_order_status');
