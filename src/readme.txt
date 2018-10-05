@@ -44,6 +44,9 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.4.0 =
+- Added the "ignore" attribute in attribute mapping – you can now use this option to filter out deliveries to not post to Detrack
+
 = 1.3.1 =
 - Fixed a bug where testing the date field in expert mode will cause a crash
 
