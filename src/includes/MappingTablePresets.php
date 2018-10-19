@@ -108,7 +108,7 @@ EOT
 (city != '' ? city ~ ', ' ) ~
 (state != '' ? state ~ ', ' ) ~
 (postalCode != '' ? postalCode ~ ', ' ) ~
-(country != '' ? country),",
+(country != '' ? country)",
               ],
               [
                 'name' => 'AddressLine1, AddressLine2',
