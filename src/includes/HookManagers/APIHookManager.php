@@ -14,6 +14,8 @@ class APIHookManager extends AbstractHookManager
         $self = new self();
         //add custom REST api endpoint to receive successful delivery notifications
         add_action('rest_api_init', array($self, 'register_api_routes'));
+        //add custom authentication override to allow unathenticated users to access the endpoint
+        add_action('rest_authentication_errors', array($self, 'override_authentication'), 9001);
     }
 
     /** Register Custom API routes we will use
@@ -30,6 +32,24 @@ class APIHookManager extends AbstractHookManager
               'methods' => 'POST',
               'callback' => array($this, 'receiveCompleteOrderNotification'),
             ));
+        }
+    }
+
+    /** Attempts to override other plugins that block access to our plugin
+     *
+     * As long as this filter runs after the other rest_authentication_errors filters, we can return no errors ("authenticated") if the current URL is our endpoint.
+     *
+     * @param $errors Any errors passed by other filters
+     *
+     * @return WP_Error|null NULL if the current request path matches our endpoint
+     */
+    public function override_authentication($error = null)
+    {
+        global $wp;
+        if (strpos($wp->request, 'detrack-woocommerce/completeOrder') !== false) {
+            return null;
+        } else {
+            return $error;
         }
     }
 
