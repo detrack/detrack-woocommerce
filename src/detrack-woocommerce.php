@@ -30,7 +30,6 @@ class Detrack_WC
     public function __construct()
     {
         add_action('plugins_loaded', array($this, 'init'));
-        add_action('plugins_loaded', array($this, 'upgrade'));
     }
 
     /**
@@ -53,6 +52,7 @@ class Detrack_WC
             \Detrack\DetrackWoocommerce\HookManagers\OrderPODHookManager::registerHooks();
             //to handle admin notifications from our extension
             add_action('admin_notices', array($this, 'notify_detrack_messages'));
+            $this->upgrade();
         } else {
             // throw an admin error if you like
         }
@@ -87,8 +87,6 @@ class Detrack_WC
     /*
      * Runs the upgrader
      *
-     * Not currently used, but may be used in later versions.
-     *
     */
     public function upgrade()
     {
@@ -96,6 +94,29 @@ class Detrack_WC
         if ($lastUpgraded == null) {
             $lastUpgraded = '1.1.2';
         }
+        //patch 1.4.1
+        if (version_compare($lastUpgraded, '1.4.1', '<')) {
+            $integration = new \Detrack\DetrackWoocommerce\BareIntegration();
+            $mappingTable = json_decode($integration->get_option('data_format'));
+            $badValue = "(addressLine1 != '' ? addressLine1 ~ ', ' ) ~
+(addressLine2 != '' ? addressLine2 ~ ', ' ) ~
+(city != '' ? city ~ ', ' ) ~
+(state != '' ? state ~ ', ' ) ~
+(postalCode != '' ? postalCode ~ ', ' ) ~
+(country != '' ? country),";
+            $fixedValue = "(addressLine1 != '' ? addressLine1 ~ ', ' ) ~
+(addressLine2 != '' ? addressLine2 ~ ', ' ) ~
+(city != '' ? city ~ ', ' ) ~
+(state != '' ? state ~ ', ' ) ~
+(postalCode != '' ? postalCode ~ ', ' ) ~
+(country != '' ? country)";
+            if ($mappingTable->address == $badValue) {
+                $mappingTable->address = $fixedValue;
+                $integration->settings['data_format'] = json_encode($mappingTable);
+                update_option($integration->get_option_key(), apply_filters('woocommerce_settings_api_sanitized_fields_'.$integration->id, $integration->settings));
+            }
+        }
+        update_option('detrack_woocommerce_last_upgraded_version', '1.4.1');
     }
 }
 $Detrack_WC = new Detrack_WC(__FILE__);
