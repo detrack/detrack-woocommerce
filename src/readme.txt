@@ -44,6 +44,9 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.4.1 =
+- Fixed a bug where setting a certain option for address data formats will result in errors
+
 = 1.4.0 =
 - Added the "ignore" attribute in attribute mapping – you can now use this option to filter out deliveries to not post to Detrack
 
