@@ -53,6 +53,8 @@ class CheckoutHookManager extends AbstractHookManager
                 //set the status manually, because for some payment methods the status is wrong
                 $delivery->status = $this->integration->get_option('new_order_status');
                 $delivery->save();
+                //set meta data for custom do
+                add_post_meta($order_id, 'detrack_do', $delivery->do, true);
             }
         } catch (\Exception $ex) {
             $this->log('Could not post info on checkout, '.$ex->getMessage(), 'error');

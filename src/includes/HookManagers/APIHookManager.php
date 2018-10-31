@@ -16,6 +16,7 @@ class APIHookManager extends AbstractHookManager
         add_action('rest_api_init', array($self, 'register_api_routes'));
         //add custom authentication override to allow unathenticated users to access the endpoint
         add_action('rest_authentication_errors', array($self, 'override_authentication'), 9001);
+        add_filter('woocommerce_order_data_store_cpt_get_orders_query', array($self, 'handle_custom_query_var'), 10, 2);
     }
 
     /** Register Custom API routes we will use
@@ -29,10 +30,30 @@ class APIHookManager extends AbstractHookManager
         $this->log('registering routes');
         if ($this->integration->get_option('auto_complete_orders') == 'yes') {
             register_rest_route('detrack-woocommerce', '/completeOrder/(?P<secret>[$\w\d./]+)', array(
-              'methods' => 'POST',
-              'callback' => array($this, 'receiveCompleteOrderNotification'),
+                'methods' => 'POST',
+                'callback' => array($this, 'receiveCompleteOrderNotification'),
             ));
         }
+    }
+
+    /**
+     * Handle a custom 'customvar' query var to get orders with the 'customvar' meta.
+     *
+     * @param array $query      - Args for WP_Query
+     * @param array $query_vars - Query vars from WC_Order_Query
+     *
+     * @return array modified $query
+     */
+    public function handle_custom_query_var($query, $query_vars)
+    {
+        if (!empty($query_vars['detrack_do'])) {
+            $query['meta_query'][] = array(
+                'key' => 'detrack_do',
+                'value' => esc_attr($query_vars['detrack_do']),
+            );
+        }
+
+        return $query;
     }
 
     /** Attempts to override other plugins that block access to our plugin
@@ -76,7 +97,8 @@ class APIHookManager extends AbstractHookManager
         try {
             $postData = json_decode($request->get_body_params()['json']);
             if (trim($postData->status) == 'Delivered') {
-                $order = wc_get_order($postData->do);
+                $orders = wc_get_orders(array('detrack_do' => $postData->do));
+                $order = $orders[0];
                 if ($order == null) {
                     $this->log('order not found while processing delivery notification, :'.$postData->do, 'error');
 
