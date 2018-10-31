@@ -44,6 +44,9 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.5.0 =
+- Add support for automatically marking orders as complete while using custom DO numbers
+
 = 1.4.2 =
 - Fix a bug where some orders will not be marked as completed in WooCommerce when they already have been marked as complete in the Detrack Dashboard caused by other plugins denying access to the REST API routes.
 
