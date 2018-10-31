@@ -83,6 +83,7 @@
                         <span><br>Custom code written - see expert mode</span>
                       <?php
                       } ?>
+                      <?php
                       if ($attr == 'ignore') {
                           ?>
                         <span><br>This attribute lets you <em>ignore</em> certain orders i.e. <em>not</em> have them be posted to your Detrack Dashboard.<br>By default, orders with the "local pickup" option enabled will be ignored and not posted to the Detrack Dashboard.</span>
