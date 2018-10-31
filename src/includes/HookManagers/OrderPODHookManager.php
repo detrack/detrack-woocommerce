@@ -3,7 +3,6 @@
 namespace Detrack\DetrackWoocommerce\HookManagers;
 
 use WC_Order;
-use Detrack\DetrackCore\Model\Delivery;
 
 class OrderPODHookManager extends AbstractHookManager
 {

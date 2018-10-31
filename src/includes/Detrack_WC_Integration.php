@@ -59,7 +59,7 @@ class Detrack_WC_Integration extends WC_Integration
     {
         $this->form_fields = array(
             '-1' => array(
-              'type' => 'warnings',
+                'type' => 'warnings',
             ),
             'api_key' => array(
                 'title' => __('API Key', 'detrack-woocommerce'),
@@ -76,8 +76,8 @@ class Detrack_WC_Integration extends WC_Integration
                 'description' => __('Log events such as API requests', 'detrack-woocommerce'),
             ),
             '0' => array(
-              'type' => 'title',
-              'title' => __('Sync Options', 'detrack-woocommerce'),
+                'type' => 'title',
+                'title' => __('Sync Options', 'detrack-woocommerce'),
             ),
             'sync_on_checkout' => array(
                 'type' => 'checkbox',
@@ -88,18 +88,18 @@ class Detrack_WC_Integration extends WC_Integration
                 'desc_tip' => true,
             ),
             'new_order_status' => array(
-              'type' => 'select',
-              'custom_attributes' => array(
-                'disabled' => 'true',
-              ),
-              'title' => 'Default status for new orders',
-              'description' => "This refers to the delivery status on Detrack, not WooCommerce's order status.<br> Set to 'in progress' if you wish to automatically dispatch jobs, or 'on hold' if you have someone to manually dispatch jobs in the Detrack Dashboard.",
-              'default' => 'in progress',
-              'options' => array(
-                'in progress' => 'in progress',
-                'info received' => 'info received',
-                'on hold' => 'on hold',
-              ),
+                'type' => 'select',
+                'custom_attributes' => array(
+                    'disabled' => 'true',
+                ),
+                'title' => 'Default status for new orders',
+                'description' => "This refers to the delivery status on Detrack, not WooCommerce's order status.<br> Set to 'in progress' if you wish to automatically dispatch jobs, or 'on hold' if you have someone to manually dispatch jobs in the Detrack Dashboard.",
+                'default' => 'in progress',
+                'options' => array(
+                    'in progress' => 'in progress',
+                    'info received' => 'info received',
+                    'on hold' => 'on hold',
+                ),
             ),
             'sync_on_processing' => array(
                 'type' => 'checkbox',
@@ -129,10 +129,10 @@ class Detrack_WC_Integration extends WC_Integration
                 'description' => __('Push status updates such as "processing" and "on hold" to detrack', 'detrack-woocommerce'),
             ),
             'auto_complete_orders' => array(
-              'type' => 'checkbox',
-              'label' => __('Mark Orders Complete'),
-              'default' => 'yes',
-              'description' => __('Automatically set order status to complete when Detrack knows the delivery has been fufilled'),
+                'type' => 'checkbox',
+                'label' => __('Mark Orders Complete'),
+                'default' => 'yes',
+                'description' => __('Automatically set order status to complete when Detrack knows the delivery has been fufilled'),
             ),
             /*
             * Temporarily comment this out for now
@@ -142,10 +142,10 @@ class Detrack_WC_Integration extends WC_Integration
             ),
             */
             'data_format' => array(
-              'type' => 'data_format',
-              'title' => 'Data Format',
-              'default' => json_encode(\Detrack\DetrackWoocommerce\MappingTablePresets::getDefaultPresets()),
-              'desc_tip' => 'Specify custom formulae for sending attributes to Detrack',
+                'type' => 'data_format',
+                'title' => 'Data Format',
+                'default' => json_encode(\Detrack\DetrackWoocommerce\MappingTablePresets::getDefaultPresets()),
+                'desc_tip' => 'Specify custom formulae for sending attributes to Detrack',
             ),
         );
     }
@@ -326,20 +326,20 @@ class Detrack_WC_Integration extends WC_Integration
         $extraVars = [];
         if ($testAttr == 'deliver_to') {
             $extraVars = array_merge($extraVars, [
-            'firstName' => $testOrder->get_shipping_first_name(),
-            'lastName' => $testOrder->get_shipping_last_name(),
-          ]);
+                'firstName' => $testOrder->get_shipping_first_name(),
+                'lastName' => $testOrder->get_shipping_last_name(),
+            ]);
         } elseif ($testAttr == 'address') {
             $extraVars = array_merge($extraVars, [
-            'addressLine1' => $testOrder->get_shipping_address_1(),
-            'addressLine2' => $testOrder->get_shipping_address_2(),
-            'city' => $testOrder->get_shipping_city(),
-            'state' => $testOrder->get_shipping_state(),
-            'stateFull' => WC()->countries->get_states($testOrder->get_shipping_country())[$testOrder->get_shipping_state()],
-            'postalCode' => $testOrder->get_shipping_postcode(),
-            'country' => $testOrder->get_shipping_country(),
-            'countryFull' => WC()->countries->countries[$testOrder->get_shipping_country()],
-          ]);
+                'addressLine1' => $testOrder->get_shipping_address_1(),
+                'addressLine2' => $testOrder->get_shipping_address_2(),
+                'city' => $testOrder->get_shipping_city(),
+                'state' => $testOrder->get_shipping_state(),
+                'stateFull' => WC()->countries->get_states($testOrder->get_shipping_country())[$testOrder->get_shipping_state()],
+                'postalCode' => $testOrder->get_shipping_postcode(),
+                'country' => $testOrder->get_shipping_country(),
+                'countryFull' => WC()->countries->countries[$testOrder->get_shipping_country()],
+            ]);
         }
         $el = new ExpressionLanguage();
         try {
@@ -351,8 +351,8 @@ class Detrack_WC_Integration extends WC_Integration
             $result = $el->evaluate(
             stripslashes($testForumla),
             array_merge($extraVars, [
-              'checkoutDate' => new Carbon($testOrder->get_date_created()),
-              'order' => new DummyOrder($testOrder),
+                'checkoutDate' => new Carbon($testOrder->get_date_created()),
+                'order' => new DummyOrder($testOrder),
             ])
           );
             if ($result instanceof Carbon) {
@@ -375,14 +375,16 @@ class Detrack_WC_Integration extends WC_Integration
     {
         //only proceed if we're on the woocommerce menus
         if ($hook == 'woocommerce_page_wc-settings' && isset($_GET['tab']) && $_GET['tab'] == 'integration') {
-            wp_enqueue_script('detrack_settings', plugins_url('../admin/js/settings.js', __FILE__),
+            wp_enqueue_script(
+                'detrack_settings',
+                plugins_url('../admin/js/settings.js', __FILE__),
               array(
-                'jquery',
-                'jquery-ui-core',
-                'jquery-ui-widget',
-                'jquery-ui-accordion',
-                'jquery-ui-tabs',
-                'jquery-effects-core',
+                  'jquery',
+                  'jquery-ui-core',
+                  'jquery-ui-widget',
+                  'jquery-ui-accordion',
+                  'jquery-ui-tabs',
+                  'jquery-effects-core',
               )
             );
             wp_enqueue_style('detrack_settings', plugins_url('../admin/css/settings.css', __FILE__));

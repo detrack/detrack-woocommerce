@@ -62,25 +62,25 @@ trait OrderCasterTrait
         foreach ($loadedSettings as $mappingKey => $mappingFormula) {
             //start with the following global variables
             $extraVars = [
-              'order' => new DummyOrder($order),
-              'checkoutDate' => Carbon::parse($order->get_date_created()->date('Y-m-d')),
+                'order' => new DummyOrder($order),
+                'checkoutDate' => Carbon::parse($order->get_date_created()->date('Y-m-d')),
             ];
             if ($mappingKey == 'deliver_to') {
                 $extraVars = array_merge($extraVars, [
-                'firstName' => $order->get_shipping_first_name(),
-                'lastName' => $order->get_shipping_last_name(),
-              ]);
+                    'firstName' => $order->get_shipping_first_name(),
+                    'lastName' => $order->get_shipping_last_name(),
+                ]);
             } elseif ($mappingKey == 'address') {
                 $extraVars = array_merge($extraVars, [
-                'addressLine1' => $order->get_shipping_address_1(),
-                'addressLine2' => $order->get_shipping_address_2(),
-                'city' => $order->get_shipping_city(),
-                'state' => $order->get_shipping_state(),
-                'stateFull' => isset(WC()->countries->get_states($order->get_shipping_country())[$order->get_shipping_state()]) ? WC()->countries->get_states($order->get_shipping_country())[$order->get_shipping_state()] : $order->get_shipping_state(),
-                'postalCode' => $order->get_shipping_postcode(),
-                'country' => $order->get_shipping_country(),
-                'countryFull' => isset(WC()->countries->countries[$order->get_shipping_country()]) ? WC()->countries->countries[$order->get_shipping_country()] : $order->get_shipping_country(),
-              ]);
+                    'addressLine1' => $order->get_shipping_address_1(),
+                    'addressLine2' => $order->get_shipping_address_2(),
+                    'city' => $order->get_shipping_city(),
+                    'state' => $order->get_shipping_state(),
+                    'stateFull' => isset(WC()->countries->get_states($order->get_shipping_country())[$order->get_shipping_state()]) ? WC()->countries->get_states($order->get_shipping_country())[$order->get_shipping_state()] : $order->get_shipping_state(),
+                    'postalCode' => $order->get_shipping_postcode(),
+                    'country' => $order->get_shipping_country(),
+                    'countryFull' => isset(WC()->countries->countries[$order->get_shipping_country()]) ? WC()->countries->countries[$order->get_shipping_country()] : $order->get_shipping_country(),
+                ]);
             }
             try {
                 //early return: see if the "ignore" setting evaluates to true
@@ -104,11 +104,12 @@ trait OrderCasterTrait
                     }
                     $delivery->address = implode(', ', array_filter(
                     [$order->get_shipping_address_1(),
-                      $order->get_shipping_address_2(),
-                      $order->get_shipping_city(),
-                      $state,
-                      $order->get_shipping_postcode(),
-                      WC()->countries->countries[$order->get_shipping_country()], ]));
+                        $order->get_shipping_address_2(),
+                        $order->get_shipping_city(),
+                        $state,
+                        $order->get_shipping_postcode(),
+                        WC()->countries->countries[$order->get_shipping_country()], ]
+                    ));
                 }
             }
         }
@@ -170,7 +171,8 @@ trait OrderCasterTrait
             $this->log($ex->getMessage(), 'error');
         }
         $result = $expressionLanguage->evaluate(
-          $formula, $variables
+          $formula,
+            $variables
         );
         if ($result instanceof Carbon) {
             $result = $result->format('Y-m-d');

@@ -51,115 +51,115 @@ class MappingTablePresets
          * @see admin/partials/dataFormatAdminPanel.php Where this is used
          */
         $data = [
-          'ignore' => [
-            'presets' => [
-              [
-                'name' => 'Do not post to Detrack if order is local pickup',
-                'value' => <<<'EOT'
+            'ignore' => [
+                'presets' => [
+                    [
+                        'name' => 'Do not post to Detrack if order is local pickup',
+                        'value' => <<<'EOT'
 array_values(order.data['shipping_lines'])[0].get_method_id() == 'local_pickup' ? true : false
 EOT
-                ,
-                'default' => 'true',
-              ],
-              [
-                'name' => 'Post everything',
-                'value' => 'false',
-              ],
+                        ,
+                        'default' => 'true',
+                    ],
+                    [
+                        'name' => 'Post everything',
+                        'value' => 'false',
+                    ],
+                ],
+                'protected' => 'true',
             ],
-            'protected' => 'true',
-          ],
-          'do' => [
-            'presets' => $morphGenericFormulae('order.id'),
-            'protected' => 'true',
-          ],
-          'date' => [
-            'presets' => [
-              [
-                'name' => 'Order Checkout Date',
-                'value' => 'checkoutDate',
-                'default' => 'true',
-              ],
-              [
-                'name' => 'Next Working Day',
-                'value' => 'checkoutDate.isFriday() ? checkoutDate.next(1) : checkoutDate.addDay(1)',
-              ],
-              [
-                'name' => 'Same day as checkout, but next working day if on weekend',
-                'value' => 'checkoutDate.isWeekend() ? checkoutDate.next(1) : checkoutDate',
-              ],
+            'do' => [
+                'presets' => $morphGenericFormulae('order.id'),
+                'protected' => 'true',
             ],
-            'protected' => 'true',
-          ],
-          'address' => [
-            'presets' => [
-              [
-                'name' => 'AddressLine1, AddressLine2, City, State (Full name), PostalCode, Country (Full name)',
-                'value' => "(addressLine1 != '' ? addressLine1 ~ ', ' ) ~
+            'date' => [
+                'presets' => [
+                    [
+                        'name' => 'Order Checkout Date',
+                        'value' => 'checkoutDate',
+                        'default' => 'true',
+                    ],
+                    [
+                        'name' => 'Next Working Day',
+                        'value' => 'checkoutDate.isFriday() ? checkoutDate.next(1) : checkoutDate.addDay(1)',
+                    ],
+                    [
+                        'name' => 'Same day as checkout, but next working day if on weekend',
+                        'value' => 'checkoutDate.isWeekend() ? checkoutDate.next(1) : checkoutDate',
+                    ],
+                ],
+                'protected' => 'true',
+            ],
+            'address' => [
+                'presets' => [
+                    [
+                        'name' => 'AddressLine1, AddressLine2, City, State (Full name), PostalCode, Country (Full name)',
+                        'value' => "(addressLine1 != '' ? addressLine1 ~ ', ' ) ~
 (addressLine2 != '' ? addressLine2 ~ ', ' ) ~
 (city != '' ? city ~ ', ' ) ~
 (state != '' ? stateFull ~ ', ' ) ~
 (postalCode != '' ? postalCode ~ ', ' ) ~
 (country != '' ? countryFull)",
-              ],
-              [
-                'name' => 'AddressLine1, AddressLine2, City, State, PostalCode, Country',
-                'value' => "(addressLine1 != '' ? addressLine1 ~ ', ' ) ~
+                    ],
+                    [
+                        'name' => 'AddressLine1, AddressLine2, City, State, PostalCode, Country',
+                        'value' => "(addressLine1 != '' ? addressLine1 ~ ', ' ) ~
 (addressLine2 != '' ? addressLine2 ~ ', ' ) ~
 (city != '' ? city ~ ', ' ) ~
 (state != '' ? state ~ ', ' ) ~
 (postalCode != '' ? postalCode ~ ', ' ) ~
 (country != '' ? country)",
-              ],
-              [
-                'name' => 'AddressLine1, AddressLine2',
-                'value' => "(addressLine1 != '' ? addressLine1 ~ ', ' ) ~
+                    ],
+                    [
+                        'name' => 'AddressLine1, AddressLine2',
+                        'value' => "(addressLine1 != '' ? addressLine1 ~ ', ' ) ~
 (addressLine2 != '' ? addressLine2 ~ ', ' )",
-              ],
+                    ],
+                ],
+                'variables' => [
+                    'addressLine1', 'addressLine2', 'city', 'state', 'stateFull', 'postalCode', 'country', 'countryFull',
+                ],
+                'protected' => 'true',
             ],
-            'variables' => [
-              'addressLine1', 'addressLine2', 'city', 'state', 'stateFull', 'postalCode', 'country', 'countryFull',
+            'deliver_to' => [
+                'presets' => [
+                    [
+                        'name' => 'firstName lastName',
+                        'value' => "firstName ~ ' ' ~ lastName",
+                        'default' => 'true',
+                    ],
+                    [
+                        'name' => 'lastName firstName',
+                        'value' => "lastName ~ ' ' ~ firstName",
+                    ],
+                    [
+                        'name' => 'firstName only',
+                        'value' => 'firstName',
+                    ],
+                    [
+                        'name' => 'lastName only',
+                        'value' => 'lastName',
+                    ],
+                ],
+                'variables' => [
+                    'firstName', 'lastName',
+                ],
             ],
-            'protected' => 'true',
-          ],
-          'deliver_to' => [
-            'presets' => [
-              [
-                'name' => 'firstName lastName',
-                'value' => "firstName ~ ' ' ~ lastName",
-                'default' => 'true',
-              ],
-              [
-                'name' => 'lastName firstName',
-                'value' => "lastName ~ ' ' ~ firstName",
-              ],
-              [
-                'name' => 'firstName only',
-                'value' => 'firstName',
-              ],
-              [
-                'name' => 'lastName only',
-                'value' => 'lastName',
-              ],
+            'notify_email' => [
+                'presets' => $morphGenericFormulae('order.billing.email'),
             ],
-            'variables' => [
-              'firstName', 'lastName',
+            'phone' => [
+                'presets' => $morphGenericFormulae('order.billing.phone'),
             ],
-          ],
-          'notify_email' => [
-            'presets' => $morphGenericFormulae('order.billing.email'),
-          ],
-          'phone' => [
-            'presets' => $morphGenericFormulae('order.billing.phone'),
-          ],
-          'pay_mode' => [
-            'presets' => $morphGenericFormulae('order.payment_method_title'),
-          ],
-          'pay_amt' => [
-            'presets' => $morphGenericFormulae('order.total'),
-          ],
-          'instructions' => [
-            'presets' => $morphGenericFormulae('order.customer_note'),
-          ],
+            'pay_mode' => [
+                'presets' => $morphGenericFormulae('order.payment_method_title'),
+            ],
+            'pay_amt' => [
+                'presets' => $morphGenericFormulae('order.total'),
+            ],
+            'instructions' => [
+                'presets' => $morphGenericFormulae('order.customer_note'),
+            ],
         ];
 
         return $data;
