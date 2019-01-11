@@ -44,6 +44,9 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.5.1 =
+- Fixed a bug where orders placed after the new year but made in 2018 will show up as 2018 instead of 2019. Happy New Year!
+
 = 1.5.0 =
 - Add support for automatically marking orders as complete while using custom DO numbers
 
