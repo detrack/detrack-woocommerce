@@ -11,9 +11,9 @@ class DetrackExpressionLanguageProvider implements ExpressionFunctionProviderInt
     {
         return array_filter([
             new ExpressionFunction('carbon', function ($str) {
-                return sprintf('new \Carbon\Carbon(%1$s)', $str);
+                return sprintf('new \Carbon\Carbon(preg_replace(\'/[^\w\d-\/ ]/\',\' \',%1$s))', $str);
             }, function ($arguments, $str) {
-                return new \Carbon\Carbon($str);
+                return new \Carbon\Carbon(preg_replace('/[^\w\d-\/ ]/', ' ', $str));
             }),
             ExpressionFunction::fromPhp('json_encode'),
             ExpressionFunction::fromPhp('json_decode'),

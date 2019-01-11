@@ -72,8 +72,12 @@ class EditOrderStatusHookManager extends AbstractHookManager
 
     /** Hotfix for order status sync bug - just sync all possible permutations
      *
+     * @param mixed      $order_id
+     * @param null|mixed $oldStatus
+     * @param null|mixed $newStatus
+     * @param null|mixed $order
      */
-    public function woocommerce_order_status_changed($order_id, $oldStatus = null, $newStatus = null, $order = null)
+    public function woocommerce_order_status_changed($order_id, $oldStatus = null, $newStatus = null, $order = null): void
     {
         $this->log(__FUNCTION__);
         if ($oldStatus == 'trash' || $newStatus == 'trash') {

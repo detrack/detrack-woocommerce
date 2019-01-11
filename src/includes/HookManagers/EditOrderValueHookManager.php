@@ -7,6 +7,8 @@ use Detrack\DetrackCore\Model\Item;
 
 class EditOrderValueHookManager extends AbstractHookManager
 {
+    protected static $oldDelivery = null;
+
     public static function registerHooks()
     {
         $self = new self();
@@ -17,10 +19,18 @@ class EditOrderValueHookManager extends AbstractHookManager
         //to push orders updates made in the admin panel
         //must put low-priority, or else the hook will be called before the order is actually saved,
         //and you will end up pushing the old values instead.
-        add_action('woocommerce_process_shop_order_meta', array($self, 'woocommerce_order_updated'), 9001);
+        add_action('woocommerce_process_shop_order_meta', array($self, 'woocommerce_order_updated'), 9001, 2);
         //to push order item updates made in the admin panel
         add_action('woocommerce_saved_order_items', array($self, 'woocommerce_order_items_updated'));
+        //add_action('woocommerce_process_shop_order_meta', array($self, 'nani'), 1, 2);
     }
+
+    /*
+    public function nani($order, $orderDataStore)
+    {
+        static::$oldDelivery = $this->castOrderToDelivery($order);
+    }
+    */
 
     /** Adds the "Post to detrack" action in the order admin panel
      *
@@ -86,6 +96,22 @@ class EditOrderValueHookManager extends AbstractHookManager
                     return;
                 }
                 $delivery->save();
+                /*
+                $this->log(var_export(static::$oldDelivery, true));
+                $oldDelivery = static::$oldDelivery;
+                $this->log(var_export($delivery, true));
+                if ($oldDelivery->date != $delivery->date) {
+                    //change of date detected!!!!
+                    //attempt to merge attributes
+                    $this->log('change in date detected!');
+                    $client = new \Detrack\DetrackCore\Client\DetrackClient($this->integration->get_option('api_key'));
+                    $serverDelivery = $client->findDelivery($oldDelivery->getIdentifier());
+                    if ($serverDelivery != null) {
+                        $this->log('server delivery is not null');
+                        $serverDelivery->delete();
+                    }
+                }
+                */
                 //set meta data for custom do
                 add_post_meta($order_id, 'detrack_do', $delivery->do, true);
                 $this->notify_successful_post();
