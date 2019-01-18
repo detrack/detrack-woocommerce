@@ -2,7 +2,7 @@
 Contributors: chester0detrack
 Tags: detrack, woocommerce, integration, api
 Requires at least: 3.0.1
-Tested up to: 4.9.5
+Tested up to: 5.0.3
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -43,6 +43,10 @@ You must already have a WooCommerce store set up on your WordPress installation 
 3. Go to WooCommerce -> Settings -> Integration Page to set your Detrack API Key and configure other settings. Your Detrack API Key can be found in your Detrack Dashboard.
 
 == Changelog ==
+
+= 1.5.2 =
+- Minor changes on backend logging
+- Test on WordPress 5.x and WooCommerce 3.5.x
 
 = 1.5.1 =
 - Fixed a bug where orders placed after the new year but made in 2018 will show up as 2018 instead of 2019. Happy New Year!
