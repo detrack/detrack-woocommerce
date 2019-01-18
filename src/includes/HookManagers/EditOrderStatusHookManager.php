@@ -97,6 +97,7 @@ class EditOrderStatusHookManager extends AbstractHookManager
         if ($delivery == null) {
             return;
         }
+        $this->log($delivery->date);
         $delivery->save();
     }
 }
