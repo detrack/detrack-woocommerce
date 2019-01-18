@@ -7,7 +7,7 @@ class CheckoutHookManager extends AbstractHookManager
     public static function registerHooks()
     {
         $self = new self();
-        add_action('woocommerce_checkout_order_processed', array($self, 'woocommerce_checkout_order_processed'), 9001);
+        add_action('woocommerce_checkout_order_processed', array($self, 'woocommerce_checkout_order_processed'), 9001, 3);
     }
 
     /** Posts to Detrack once the customer has finished the checkout process.
@@ -33,15 +33,6 @@ class CheckoutHookManager extends AbstractHookManager
             $this->log(var_export([$order_id, $posted_data, $order], true), 'warning');
 
             return;
-        } else {
-            if ($posted_data == null) {
-                $this->log('posted_data in order checkout hook is NULL! ', 'warning');
-                $this->log(var_export([$order_id, $posted_data, $order], true), 'warning');
-            }
-            if ($order == null) {
-                $this->log('order in order checkout hook is NULL! ', 'warning');
-                $this->log(var_export([$order_id, $posted_data, $order], true), 'warning');
-            }
         }
         try {
             if ($this->integration->get_option('sync_on_checkout') == 'yes') {

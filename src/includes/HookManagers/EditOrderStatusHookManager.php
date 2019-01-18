@@ -12,7 +12,7 @@ class EditOrderStatusHookManager extends AbstractHookManager
         //restoration
         add_action('untrash_post', array($self, 'untrash_post'));
         //internal hook used by woocommerce for any type of change
-        add_action('woocommerce_order_status_changed', array($self, 'woocommerce_order_status_changed'), 9001);
+        add_action('woocommerce_order_status_changed', array($self, 'woocommerce_order_status_changed'), 9001, 3);
     }
 
     /** Removes from detrack if order is trashed
@@ -92,11 +92,6 @@ class EditOrderStatusHookManager extends AbstractHookManager
 
                 return;
             }
-        }
-        if ($oldStatus == null) {
-            $this->log('warning: oldStatus is null!');
-        } elseif ($newStatus == null) {
-            $this->log('warning: newStatus is null!');
         }
         $delivery = $this->castOrderToDelivery($order_id);
         if ($delivery == null) {
