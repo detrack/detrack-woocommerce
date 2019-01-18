@@ -93,6 +93,7 @@ class EditOrderStatusHookManager extends AbstractHookManager
                 return;
             }
         }
+        $this->log('logging order transition for order: '.var_export([$order_id, $oldStatus, $newStatus], true));
         $delivery = $this->castOrderToDelivery($order_id);
         if ($delivery == null) {
             return;
