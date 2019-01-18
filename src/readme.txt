@@ -44,6 +44,9 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.5.3 =
+- Minor changes on backend logging
+
 = 1.5.2 =
 - Minor changes on backend logging
 - Test on WordPress 5.x and WooCommerce 3.5.x
