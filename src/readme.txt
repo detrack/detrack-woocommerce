@@ -44,6 +44,11 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.5.4 =
+- Fixed a bug where the detrack_do post metadata is not being set when the sync_on_checkout option is not selected
+- Added failsafe for marking orders as complete – if a matching detrack_do post metadata is not found, an order with matching internal post id will be marked as completed instead.
+- Minor code cleanups
+
 = 1.5.3 =
 - Minor changes on backend logging
 
