@@ -100,5 +100,7 @@ class EditOrderStatusHookManager extends AbstractHookManager
         }
         $this->log($delivery->date);
         $delivery->save();
+        //set meta data for custom do
+        add_post_meta($order_id, 'detrack_do', $delivery->do, true);
     }
 }
