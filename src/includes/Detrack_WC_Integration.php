@@ -84,8 +84,7 @@ class Detrack_WC_Integration extends WC_Integration
                 'title' => 'Push on checkout',
                 'label' => 'Send new orders to detrack automatically after customer checkout',
                 'default' => 'yes',
-                'description' => __('If you leave this unchecked, you must push updates to detrack by using the "push to detrack" action in the edit order page.', 'detrack-woocommerce'),
-                'desc_tip' => true,
+                'description' => __('If you leave this unchecked, you must push updates to detrack by using the "push to detrack" action in the edit order page.<br>If mulitple jobs on different dates show up on your Detrack Dashboard, trying unchecking this option but keep the sync status option checked.', 'detrack-woocommerce'),
             ),
             'new_order_status' => array(
                 'type' => 'select',
@@ -394,6 +393,9 @@ class Detrack_WC_Integration extends WC_Integration
 
     /**
      * Validates API Key.
+     *
+     * @param mixed $key
+     * @param mixed $value
      */
     public function validate_api_key_field($key, $value)
     {
