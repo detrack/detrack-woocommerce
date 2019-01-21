@@ -61,6 +61,7 @@ class APIHookManager extends AbstractHookManager
      * As long as this filter runs after the other rest_authentication_errors filters, we can return no errors ("authenticated") if the current URL is our endpoint.
      *
      * @param $errors Any errors passed by other filters
+     * @param null|mixed $error
      *
      * @return WP_Error|null NULL if the current request path matches our endpoint
      */
@@ -79,6 +80,7 @@ class APIHookManager extends AbstractHookManager
      * @see APIHookManager::register_api_resoutes Where this route is registered
      *
      * @param WP_REST_Request $request The request object, as passed by WordPress
+     * @param null|mixed      $data
      *
      * @return WP_REST_Response A response containing an error message, if any
      */
@@ -98,7 +100,13 @@ class APIHookManager extends AbstractHookManager
             $postData = json_decode($request->get_body_params()['json']);
             if (trim($postData->status) == 'Delivered') {
                 $orders = wc_get_orders(array('detrack_do' => $postData->do));
-                $order = $orders[0];
+                $order = isset($orders[0]) ? $orders[0] : null;
+                if ($order == null) {
+                    $order = wc_get_order($postData->do);
+                    if ($order != null) {
+                        $this->log('unable to find order post with meta detrack_do = '.$postData->do.', falled back to using post id', 'error');
+                    }
+                }
                 if ($order == null) {
                     $this->log('order not found while processing delivery notification, :'.$postData->do, 'error');
 
