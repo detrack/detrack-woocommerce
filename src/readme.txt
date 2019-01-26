@@ -44,6 +44,9 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.6.0 =
+- Added the "type" attribute in attribute mapping – you can now use this option to choose which deliveries get posted to Detrack as a Delivery or a Collection.
+
 = 1.5.4 =
 - Fixed a bug where the detrack_do post metadata is not being set when the sync_on_checkout option is not selected
 - Added failsafe for marking orders as complete – if a matching detrack_do post metadata is not found, an order with matching internal post id will be marked as completed instead.
