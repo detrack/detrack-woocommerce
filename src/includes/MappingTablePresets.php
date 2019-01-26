@@ -164,12 +164,12 @@ EOT
                 'presets' => [
                     [
                         'name' => 'Post all orders as deliveries',
-                        'value' => "order.meta.detrack_job_type == '' ? 'delivery' : order.meta.detrack_job_type",
+                        'value' => "order.meta_data.detrack_job_type == '' ? 'delivery' : order.meta_data.detrack_job_type",
                         'default' => 'true',
                     ],
                     [
                         'name' => 'Post all orders as collections',
-                        'value' => "order.meta.detrack_job_type == '' ? 'collection' : order.meta.detrack_job_type",
+                        'value' => "order.meta_data.detrack_job_type == '' ? 'collection' : order.meta_data.detrack_job_type",
                     ],
                 ],
                 'protected' => 'true',
