@@ -67,6 +67,7 @@ class EditOrderValueHookManager extends AbstractHookManager
             $delivery->save();
             //set meta data for custom do
             add_post_meta($order_id, 'detrack_do', $delivery->do, true);
+            add_post_meta($order_id, 'detrack_job_type', $delivery instanceof \Detrack\DetrackCore\Model\Delivery ? 'delivery' : ($delivery instanceof \Detrack\DetrackCore\Model\Collection ? 'collection' : ''), true);
             $this->notify_successful_post();
         } catch (\Exception $ex) {
             $this->log('Manual posting to Detrack via action button failed, '.$ex->getMessage(), 'error');
@@ -114,6 +115,7 @@ class EditOrderValueHookManager extends AbstractHookManager
                 */
                 //set meta data for custom do
                 add_post_meta($order_id, 'detrack_do', $delivery->do, true);
+                add_post_meta($order_id, 'detrack_job_type', $delivery instanceof \Detrack\DetrackCore\Model\Delivery ? 'delivery' : ($delivery instanceof \Detrack\DetrackCore\Model\Collection ? 'collection' : ''), true);
                 $this->notify_successful_post();
             } catch (\Exception $ex) {
                 $this->log('Failed to sync order update, '.$ex->getMessage(), 'error');
@@ -144,7 +146,8 @@ class EditOrderValueHookManager extends AbstractHookManager
                 }
                 $delivery->save();
                 //set meta data for custom do
-                add_post_meta($order_id, 'detrack_do', $delivery->do, true); ?>
+                add_post_meta($order_id, 'detrack_do', $delivery->do, true);
+                add_post_meta($order_id, 'detrack_job_type', $delivery instanceof \Detrack\DetrackCore\Model\Delivery ? 'delivery' : ($delivery instanceof \Detrack\DetrackCore\Model\Collection ? 'collection' : ''), true); ?>
                <div class="notice notice-success is-dismissible">
                   <p><?php esc_html_e('Items successfully updated to Detrack!', 'text-domain'); ?></p>
                </div>

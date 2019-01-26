@@ -47,6 +47,7 @@ class CheckoutHookManager extends AbstractHookManager
                 $delivery->save();
                 //set meta data for custom do
                 add_post_meta($order_id, 'detrack_do', $delivery->do, true);
+                add_post_meta($order_id, 'detrack_job_type', $delivery instanceof \Detrack\DetrackCore\Model\Delivery ? 'delivery' : ($delivery instanceof \Detrack\DetrackCore\Model\Collection ? 'collection' : ''), true);
             }
         } catch (\Exception $ex) {
             $this->log('Could not post info on checkout, '.$ex->getMessage(), 'error');
