@@ -21,11 +21,17 @@ class BulkActionHookManager extends AbstractHookManager
                 if (isset($_GET['trashed']) && isset($_GET['ids'])) {
                     $this->log('Gonna delete: '.$_GET['ids']);
                     $ids = explode(',', $_GET['ids']);
-                    $deliveries = array_filter(array_map(function ($id) {
+                    $jobs = array_filter(array_map(function ($id) {
                         $order = new WC_Order($id);
 
                         return $this->castOrderToDelivery($order);
                     }, $ids));
+                    $deliveries = array_filter($jobs, function ($job) {
+                        return $job instanceof \Detrack\DetrackCore\Model\Delivery;
+                    });
+                    $collections = array_filter($jobs, function ($job) {
+                        return $job instanceof \Detrack\DetrackCore\Model\Collection;
+                    });
                     if ($this->integration->get_option('api_key') == null) {
                         $this->log('API Key not defined, aborting', 'error');
 
@@ -34,6 +40,7 @@ class BulkActionHookManager extends AbstractHookManager
                     try {
                         $client = new \Detrack\DetrackCore\Client\DetrackClient($this->integration->get_option('api_key'));
                         $this->log(json_encode($client->bulkDeleteDeliveries($deliveries)));
+                        $this->log(json_encode($client->bulkDeleteCollections($collections)));
                     } catch (\Exception $ex) {
                         $this->log('Error occurred when handling bulk trash, '.$ex->getMessage(), 'error');
                     }
