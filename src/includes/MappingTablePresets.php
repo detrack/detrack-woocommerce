@@ -173,6 +173,7 @@ EOT
                         'default' => 'true',
                     ],
                 ],
+                'protected' => 'true',
             ],
         ];
 
