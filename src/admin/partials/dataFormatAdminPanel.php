@@ -84,9 +84,14 @@
                       <?php
                       } ?>
                       <?php
+                      //extra notes for some special attributes
                       if ($attr == 'ignore') {
                           ?>
                         <span><br>This attribute lets you <em>ignore</em> certain orders i.e. <em>not</em> have them be posted to your Detrack Dashboard.<br>By default, orders with the "local pickup" option enabled will be ignored and not posted to the Detrack Dashboard.</span>
+                        <?php
+                      } elseif ($attr == 'type') {
+                          ?>
+                        <span><br>This attribute lets you choose whether to push orders to Detrack either as Deliveries (default) or collections.
                         <?php
                       } ?>
                     </td>
