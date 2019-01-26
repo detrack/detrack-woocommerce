@@ -16,7 +16,7 @@ trait OrderCasterTrait
      *
      * @param WC_Order|int $attr pass either the object itself or the id
      *
-     * @return Delivery the newly casted delivery
+     * @return Delivery|Collection the newly casted delivery/collection
      */
     protected function castOrderToDelivery($attr)
     {
@@ -28,9 +28,6 @@ trait OrderCasterTrait
             return null;
         }
         $client = new \Detrack\DetrackCore\Client\DetrackClient($this->integration->get_option('api_key'));
-        $delivery = new \Detrack\DetrackCore\Model\Delivery([], $client);
-        $delivery->do = $order->get_order_number();
-        $delivery->notify_email = $order->get_billing_email();
         /* replaced by attribute mapping
         $delivery->date = $order->get_date_created()->date('Y-m-d');
         $states = WC()->countries->get_states($order->get_shipping_country());
@@ -59,12 +56,20 @@ trait OrderCasterTrait
         if ($loadedSettings == [] || $loadedSettings == '' || $loadedSettings == null) {
             $loadedSettings = \Detrack\DetrackWoocommerce\MappingTablePresets::getDefaultPresets();
         }
+        //global variables for attribute MappingTablePresets
+        $extraVars = [
+            'order' => new DummyOrder($order),
+            'checkoutDate' => Carbon::parse($order->get_date_created()->date('Y-m-d')),
+        ];
+        //choose to create either a delivery or a collection
+        if (!isset($loadedSettings['type']) || $this->mapAttribute('type', $extraVars) == 'delivery') {
+            $delivery = new \Detrack\DetrackCore\Model\Delivery([], $client);
+        } else {
+            $delivery = new \Detrack\DetrackCore\Model\Collection([], $client);
+        }
+        $delivery->do = $order->get_order_number();
+        $delivery->notify_email = $order->get_billing_email();
         foreach ($loadedSettings as $mappingKey => $mappingFormula) {
-            //start with the following global variables
-            $extraVars = [
-                'order' => new DummyOrder($order),
-                'checkoutDate' => Carbon::parse($order->get_date_created()->date('Y-m-d')),
-            ];
             if ($mappingKey == 'deliver_to') {
                 $extraVars = array_merge($extraVars, [
                     'firstName' => $order->get_shipping_first_name(),
@@ -89,7 +94,21 @@ trait OrderCasterTrait
                     //dont post this order, immediately exit.
                     return null;
                 }
-                $delivery->$mappingKey = $this->mapAttribute($mappingKey, $extraVars);
+                //special attribute names for collection
+                if ($delivery instanceof \Detrack\DetrackCore\Model\Collection) {
+                    if ($mappingKey == 'deliver_to') {
+                        //deliver_to => collect_from
+                        $delivery->collect_from = $this->mapAttribute($mappingKey, $extraVars);
+                    } elseif ($mappingKey == 'delivery_time') {
+                        //delivery_time => collection_time
+                        $delivery->collection_time = $this->mapAttribute($mappingKey, $extraVars);
+                    } else {
+                        //other attributes are the same
+                        $delivery->$mappingKey = $this->mapAttribute($mappingKey, $extraVars);
+                    }
+                } else {
+                    $delivery->$mappingKey = $this->mapAttribute($mappingKey, $extraVars);
+                }
             } catch (\Exception $ex) {
                 $this->log('ExpressionLanguage syntax failed for key '.$mappingKey.$ex->getMessage(), 'error');
                 //resort to old-school methods for required fields
