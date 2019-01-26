@@ -160,6 +160,20 @@ EOT
             'instructions' => [
                 'presets' => $morphGenericFormulae('order.customer_note'),
             ],
+            'type' => [
+                'presets' => [
+                    [
+                        'name' => 'Post all orders as deliveries',
+                        'value' => "'delivery'",
+                        'default' => 'true',
+                    ],
+                    [
+                        'name' => 'Post all orders as collections',
+                        'value' => "'collection'",
+                        'default' => 'true',
+                    ],
+                ],
+            ],
         ];
 
         return $data;
