@@ -2,7 +2,7 @@
 Contributors: chester0detrack
 Tags: detrack, woocommerce, integration, api
 Requires at least: 3.0.1
-Tested up to: 5.0.3
+Tested up to: 5.2
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later
@@ -43,6 +43,10 @@ You must already have a WooCommerce store set up on your WordPress installation 
 3. Go to WooCommerce -> Settings -> Integration Page to set your Detrack API Key and configure other settings. Your Detrack API Key can be found in your Detrack Dashboard.
 
 == Changelog ==
+
+= 1.6.1 =
+- Tested with the latest versions of WordPress 5
+- Updated dependencies
 
 = 1.6.0 =
 - Added the "type" attribute in attribute mapping – you can now use this option to choose which deliveries get posted to Detrack as a Delivery or a Collection.

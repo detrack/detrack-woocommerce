@@ -4,28 +4,31 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import chromedriver_binary # Adds chromedriver binary to path
+import chromedriver_binary  # Adds chromedriver binary to path
 import os
 import random
 
-#function to bring driver window to front
+# function to bring driver window to front
+
+
 def btf(driver):
     driver.execute_script("alert()")
     alert = driver.switch_to.alert
     alert.dismiss()
 
+
 # Retrieve required environment variables
 wp_admin_path = os.environ.get("WP_ADMIN_PATH")
 wp_admin_username = os.environ.get("WP_ADMIN_USERNAME")
 wp_admin_password = os.environ.get("WP_ADMIN_PASSWORD")
-detrack_dashboard_path = os.environ.get("DETRACK_DASHBOARD_PATH");
-detrack_dashboard_username = os.environ.get("DETRACK_DASHBOARD_USERNAME");
-detrack_dashboard_password = os.environ.get("DETRACK_DASHBOARD_PASSWORD");
+detrack_dashboard_path = os.environ.get("DETRACK_DASHBOARD_PATH")
+detrack_dashboard_username = os.environ.get("DETRACK_DASHBOARD_USERNAME")
+detrack_dashboard_password = os.environ.get("DETRACK_DASHBOARD_PASSWORD")
 
 # Login to WooCommerce
 driver = webdriver.Chrome()
 driver.delete_all_cookies()
-driver.get(wp_admin_path);
+driver.get(wp_admin_path)
 assert "Log In" in driver.title
 elem = driver.find_element_by_id("user_login")
 elem.clear()
@@ -39,7 +42,7 @@ assert "Dashboard" in driver.title
 
 # Open new driver instance, login to detrack dashboard
 detrack_driver = webdriver.Chrome()
-detrack_driver.implicitly_wait(5) # because detrack dashboard is built on angular, need wait for elements to render
+detrack_driver.implicitly_wait(5)  # because detrack dashboard is built on angular, need wait for elements to render
 detrack_driver.get(detrack_dashboard_path)
 assert "Detrack" in detrack_driver.title
 
@@ -127,7 +130,7 @@ elem.send_keys(order["email"])
 elem = driver.find_element_by_id("ship-to-different-address-checkbox")
 elem.click()
 wait = WebDriverWait(driver, 10)
-elem = wait.until(EC.invisibility_of_element((By.CLASS_NAME,'blockOverlay')))
+elem = wait.until(EC.invisibility_of_element((By.CLASS_NAME, 'blockOverlay')))
 elem = wait.until(EC.element_to_be_clickable((By.ID, 'place_order')))
 elem.click()
 wait.until(EC.url_changes(driver.current_url))
@@ -144,15 +147,15 @@ hov.perform()
 elem = detrack_driver.find_element_by_css_selector("#left-panel > nav > ul > li:nth-child(3) > ul > li:nth-child(3) > a")
 elem.click()
 wait = WebDriverWait(detrack_driver, 10)
-wait.until(EC.invisibility_of_element((By.CLASS_NAME,"router-animation-loader")))
-wait.until(EC.invisibility_of_element((By.CLASS_NAME,"loading-bar")))
+wait.until(EC.invisibility_of_element((By.CLASS_NAME, "router-animation-loader")))
+wait.until(EC.invisibility_of_element((By.CLASS_NAME, "loading-bar")))
 elem = detrack_driver.find_element_by_id("AllJobsDo")
 elem.clear()
 elem.send_keys(order["do"])
 elem = detrack_driver.find_element_by_css_selector("#searchJobs-jobs-widget > div > form > fieldset:nth-child(1) > div.text-center > button.btn.btn-primary.ng-binding")
 elem.click()
-wait.until(EC.invisibility_of_element((By.CLASS_NAME,"loading-bar")))
-elem = next(elem for elem in detrack_driver.find_elements_by_css_selector("#dtAllJobs td:nth-child(4)") if elem.text==order["do"]).find_element_by_xpath('..')
+wait.until(EC.invisibility_of_element((By.CLASS_NAME, "loading-bar")))
+elem = next(elem for elem in detrack_driver.find_elements_by_css_selector("#dtAllJobs > tbody > tr > td:nth-child(5)") if elem.text == order["do"]).find_element_by_xpath('..')
 detrack_driver.execute_script("arguments[0].scrollIntoView();", elem)
 assert order["do"] in elem.find_element_by_css_selector("td:nth-child(4)").text
 assert order["address_1"] in elem.find_element_by_css_selector("td:nth-child(8)").text
