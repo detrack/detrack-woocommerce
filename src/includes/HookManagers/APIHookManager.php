@@ -27,7 +27,6 @@ class APIHookManager extends AbstractHookManager
      */
     public function register_api_routes()
     {
-        $this->log('registering routes');
         if ($this->integration->get_option('auto_complete_orders') == 'yes') {
             register_rest_route('detrack-woocommerce', '/completeOrder/(?P<secret>[$\w\d./]+)', array(
                 'methods' => 'POST',
