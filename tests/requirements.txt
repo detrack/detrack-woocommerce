@@ -1,3 +1,2 @@
-chromedriver-binary==74.0.3729.6.0
+chromedriver-binary==75.0.3770.8.0
 selenium>=3.141.0
-urllib3>=1.24.1
