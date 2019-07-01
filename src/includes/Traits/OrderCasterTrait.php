@@ -53,7 +53,8 @@ trait OrderCasterTrait
         */
         $loadedSettings = json_decode($this->integration->get_option('data_format'), true);
         //I don't trust WC's default setting retrieval
-        if ($loadedSettings == [] || $loadedSettings == '' || $loadedSettings == null) {
+        if ($loadedSettings === [] || $loadedSettings === '' || $loadedSettings === null) {
+            $this->log('loaded settings not found, using defaults!');
             $loadedSettings = \Detrack\DetrackWoocommerce\MappingTablePresets::getDefaultPresets();
         }
         //global variables for attribute MappingTablePresets
@@ -61,6 +62,7 @@ trait OrderCasterTrait
             'order' => new DummyOrder($order),
             'checkoutDate' => Carbon::parse($order->get_date_created()->date('Y-m-d')),
         ];
+
         //choose to create either a delivery or a collection
         if (!isset($loadedSettings['type']) || $this->mapAttribute('type', $extraVars) == 'delivery') {
             $delivery = new \Detrack\DetrackCore\Model\Delivery([], $client);
@@ -122,12 +124,12 @@ trait OrderCasterTrait
                         $state = $order->get_shipping_state();
                     }
                     $delivery->address = implode(', ', array_filter(
-                    [$order->get_shipping_address_1(),
-                        $order->get_shipping_address_2(),
-                        $order->get_shipping_city(),
-                        $state,
-                        $order->get_shipping_postcode(),
-                        WC()->countries->countries[$order->get_shipping_country()], ]
+                        [$order->get_shipping_address_1(),
+                            $order->get_shipping_address_2(),
+                            $order->get_shipping_city(),
+                            $state,
+                            $order->get_shipping_postcode(),
+                            WC()->countries->countries[$order->get_shipping_country()], ]
                     ));
                 }
             }
@@ -145,15 +147,21 @@ trait OrderCasterTrait
                 $delivery->status = 'complete';
             }
         }
-        $wcItems = $order->get_items();
+        $wcItems = array_filter($order->get_items(), function ($item) {
+            return $item instanceof \WC_Order_Item_Product;
+        });
         $detrackItems = [];
         foreach ($wcItems as $wcItem) {
             $item = new \Detrack\DetrackCore\Model\Item();
-            $item->sku = $wcItem->get_product()->get_sku();
-            if ($item->sku == null) {
-                $item->sku = strtoupper(str_replace(' ', '-', $wcItem->get_product()->get_name()));
+            $wcProduct = $wcItem->get_product();
+            if ($wcProduct == null) {
+                continue;
             }
-            $item->desc = $wcItem->get_product()->get_name();
+            $item->sku = $wcProduct->get_sku();
+            if ($item->sku == null) {
+                $item->sku = strtoupper(str_replace(' ', '-', $wcProduct->get_name()));
+            }
+            $item->desc = $wcProduct->get_name();
             $item->qty = $wcItem->get_quantity();
             $delivery->items->push($item);
         }
@@ -190,7 +198,7 @@ trait OrderCasterTrait
             $this->log($ex->getMessage(), 'error');
         }
         $result = $expressionLanguage->evaluate(
-          $formula,
+            $formula,
             $variables
         );
         if ($result instanceof Carbon) {
