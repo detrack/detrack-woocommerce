@@ -1,21 +1,20 @@
 {
-    "name": "detrack/detrack-woocommerce",
-    "description": "Woocommerce integration for the Detrack Platform",
-    "type": "project",
-    "require": {
-        "detrack/detrack-core": "^1.7.0",
-        "symfony/expression-language": "*"
-    },
-    "license": "GPL-2.0-or-later",
-    "authors": [
-        {
-            "name": "Chester",
-            "email": "chester@detrack.com"
-        }
-    ],
-    "autoload": {
-        "psr-4" : {
-            "Detrack\\DetrackWoocommerce\\" : "includes/"
-        }
+  "name": "detrack/detrack-woocommerce",
+  "description": "Woocommerce integration for the Detrack Platform",
+  "type": "project",
+  "require": {
+    "php": "^5.6",
+    "detrack/detrack-core": "^1.7.0",
+    "symfony/expression-language": "v3.4.27"
+  },
+  "license": "GPL-2.0-or-later",
+  "authors": [{
+    "name": "Chester",
+    "email": "chester@detrack.com"
+  }],
+  "autoload": {
+    "psr-4": {
+      "Detrack\\DetrackWoocommerce\\": "includes/"
     }
+  }
 }
