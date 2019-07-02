@@ -105,21 +105,18 @@ class Detrack_WC_Integration extends WC_Integration
                 'label' => 'Automatically push to detrack when orders are marked as processing',
                 'default' => 'yes',
                 'description' => __('If you leave this unchecked, you must push updates to detrack by using the "push to detrack" action in the edit order page.', 'detrack-woocommerce'),
-                'desc_tip' => true,
             ),
             'sync_on_update' => array(
                 'type' => 'checkbox',
                 'label' => 'Automatically push to detrack on updating orders',
                 'default' => 'yes',
-                'description' => __('If you leave this unchecked, you must push updates to detrack by using the "push to detrack" action in the edit order page.', 'detrack-woocommerce'),
-                'desc_tip' => true,
+                'description' => __('This includes changes in <b>any</b> change in order status. <br> If you leave this unchecked, you must push updates to detrack by using the "push to detrack" action in the edit order page.', 'detrack-woocommerce'),
             ),
             'sync_items_on_update' => array(
                 'type' => 'checkbox',
                 'label' => 'Automatically push to detrack on updating order items',
                 'default' => 'yes',
                 'description' => __('If you leave this unchecked, you must push updates to detrack by using the "push to detrack" action in the edit order page.', 'detrack-woocommerce'),
-                'desc_tip' => true,
             ),
             'sync_order_status' => array(
                 'type' => 'checkbox',
@@ -348,11 +345,11 @@ class Detrack_WC_Integration extends WC_Integration
         }
         try {
             $result = $el->evaluate(
-            stripslashes($testForumla),
-            array_merge($extraVars, [
-                'checkoutDate' => new Carbon($testOrder->get_date_created()),
-                'order' => new DummyOrder($testOrder),
-            ])
+                stripslashes($testForumla),
+                array_merge($extraVars, [
+                    'checkoutDate' => new Carbon($testOrder->get_date_created()),
+                    'order' => new DummyOrder($testOrder),
+                ])
           );
             if ($result instanceof Carbon) {
                 echo $result->format('Y-m-d');
@@ -377,14 +374,14 @@ class Detrack_WC_Integration extends WC_Integration
             wp_enqueue_script(
                 'detrack_settings',
                 plugins_url('../admin/js/settings.js', __FILE__),
-              array(
-                  'jquery',
-                  'jquery-ui-core',
-                  'jquery-ui-widget',
-                  'jquery-ui-accordion',
-                  'jquery-ui-tabs',
-                  'jquery-effects-core',
-              )
+                array(
+                    'jquery',
+                    'jquery-ui-core',
+                    'jquery-ui-widget',
+                    'jquery-ui-accordion',
+                    'jquery-ui-tabs',
+                    'jquery-effects-core',
+                )
             );
             wp_enqueue_style('detrack_settings', plugins_url('../admin/css/settings.css', __FILE__));
             wp_enqueue_script('fontawesome', 'https://use.fontawesome.com/releases/v5.0.10/js/all.js');

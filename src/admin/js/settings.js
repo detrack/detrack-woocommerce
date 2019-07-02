@@ -1,11 +1,12 @@
-(function ($, window, document) {
-  jQuery(document).ready(function () {
+(function($, window, document) {
+  jQuery(document).ready(function() {
     console.log("document.ready called from detrack-woocommerce/settings.js!")
     Detrack_WC_Integration_toggleDefaultStatusDropdown();
     jQuery("#woocommerce_detrack-woocommerce_sync_on_checkout").on("change", Detrack_WC_Integration_toggleDefaultStatusDropdown);
+    jQuery("#woocommerce_detrack-woocommerce_sync_on_update").on("change", Detrack_WC_Integration_toggleDefaultStatusDropdown);
     var updateCheck = new XMLHttpRequest();
     updateCheck.open("GET", "https://chester.detrack.info/v/woocommerce-version.php?v=" + $("#versionNumber").html());
-    updateCheck.onreadystatechange = function () {
+    updateCheck.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         if (this.responseText != "ok") {
           $("#newUpdate").show();
@@ -37,6 +38,11 @@
     } else {
       jQuery("#woocommerce_detrack-woocommerce_new_order_status").attr("disabled", "disabled");
     }
+    if (jQuery("#woocommerce_detrack-woocommerce_sync_on_update").is(":checked")) {
+      jQuery("#woocommerce_detrack-woocommerce_sync_on_processing").removeAttr("disabled");
+    } else {
+      jQuery("#woocommerce_detrack-woocommerce_sync_on_processing").attr("disabled", "disabled");
+    }
   }
 
   function showPresetCode() {
@@ -66,7 +72,7 @@
 
   function writeMasterValue() {
     var masterValues = {};
-    $(".detrack-attribute-mapping-expert-code").each(function (index, element) {
+    $(".detrack-attribute-mapping-expert-code").each(function(index, element) {
       masterValues[$(element).attr("data-field")] = $(element).val();
     });
     console.log(masterValues);
@@ -86,7 +92,7 @@
     fd.append("formula", testForumla);
     fd.append("attribute", testAttr);
     fd.append("orderNumber", testOrderNumber);
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         if (xhr.status == 200) {
           targetOutputBox.html(xhr.responseText == "" ? "(nothing. check your code.)" : xhr.responseText);

@@ -73,9 +73,9 @@ class EditOrderStatusHookManager extends AbstractHookManager
     /** Hotfix for order status sync bug - just sync all possible permutations
      *
      * @param mixed      $order_id
-     * @param null|mixed $oldStatus
-     * @param null|mixed $newStatus
-     * @param null|mixed $order
+     * @param mixed|null $oldStatus
+     * @param mixed|null $newStatus
+     * @param mixed|null $order
      */
     public function woocommerce_order_status_changed($order_id, $oldStatus = null, $newStatus = null, $order = null)
     {
@@ -93,15 +93,20 @@ class EditOrderStatusHookManager extends AbstractHookManager
                 return;
             }
         }
-        $this->log('logging order transition for order: '.var_export([$order_id, $oldStatus, $newStatus], true));
-        $delivery = $this->castOrderToDelivery($order_id);
-        if ($delivery == null) {
-            return;
+
+        if ($this->integration->get_option('sync_on_update') == 'yes') {
+            $this->log('logging order transition for order: '.var_export([$order_id, $oldStatus, $newStatus], true));
+            $delivery = $this->castOrderToDelivery($order_id);
+            if ($delivery == null) {
+                return;
+            }
+            $this->log($delivery->date);
+            $delivery->save();
+            //set meta data for custom do
+            add_post_meta($order_id, 'detrack_do', $delivery->do, true);
+            add_post_meta($order_id, 'detrack_job_type', $delivery instanceof \Detrack\DetrackCore\Model\Delivery ? 'delivery' : ($delivery instanceof \Detrack\DetrackCore\Model\Collection ? 'collection' : ''), true);
+        } else {
+            $this->log('order transition ignored due to sync_on_update option disabled');
         }
-        $this->log($delivery->date);
-        $delivery->save();
-        //set meta data for custom do
-        add_post_meta($order_id, 'detrack_do', $delivery->do, true);
-        add_post_meta($order_id, 'detrack_job_type', $delivery instanceof \Detrack\DetrackCore\Model\Delivery ? 'delivery' : ($delivery instanceof \Detrack\DetrackCore\Model\Collection ? 'collection' : ''), true);
     }
 }
