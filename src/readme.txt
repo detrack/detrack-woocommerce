@@ -44,6 +44,9 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.6.3 =
+- The `sync_on_update` setting ("Automatically push to detrack on updating orders") will now affect **any** status transition, to allow allow users to push orders to Detrack in complete manual mode.
+
 = 1.6.2 =
 - Fixed a bug that caused the processing of certain line items to crash
 - Improve logging
