@@ -189,7 +189,7 @@
                       <div>
                         Test Order ID<input type="text" size="3" value="<?php echo isset($defaultTestOrder) ? esc_attr($defaultTestOrder->get_id()) : ''; ?>"/> <button class="button detrack-attribute-mapping-expert-test" type="button">Test</button><img src="<?php echo plugin_dir_url(__FILE__).'../img/loading.gif'; ?>" width="25px" height="25px" style="display:none"/>
                         <?php
-                        if (!isset($defaultTestOrder) || count($defaultTestOrder) == 0) {
+                        if (!isset($defaultTestOrder)) {
                             ?>
                           <p style="color:red"> Warning - there are no orders on your database; you cannot use the test console! <br> Please create a test order in WooCommerce before continuing.</p>
                           <?php
