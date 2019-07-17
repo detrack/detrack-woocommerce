@@ -344,10 +344,18 @@ class Detrack_WC_Integration extends WC_Integration
             $this->log($ex->getMessage(), 'error');
         }
         try {
+            $orderDate = $testOrder->get_date_created();
+            if (is_null($orderDate)) {
+                $this->log('order date was empty!');
+                $orderDate = date('Y-m-d');
+            } else {
+                $orderDate = $orderDate->date('Y-m-d');
+            }
+            $delivery->date = $orderDate;
             $result = $el->evaluate(
                 stripslashes($testForumla),
                 array_merge($extraVars, [
-                    'checkoutDate' => new Carbon($testOrder->get_date_created()),
+                    'checkoutDate' => new Carbon($orderDate),
                     'order' => new DummyOrder($testOrder),
                 ])
           );

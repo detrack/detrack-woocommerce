@@ -58,9 +58,16 @@ trait OrderCasterTrait
             $loadedSettings = \Detrack\DetrackWoocommerce\MappingTablePresets::getDefaultPresets();
         }
         //global variables for attribute MappingTablePresets
+        $orderDate = $order->get_date_created();
+        if (is_null($orderDate)) {
+            $this->log('order date was empty!', 'warning');
+            $orderDate = date('Y-m-d');
+        } else {
+            $orderDate = $orderDate->date('Y-m-d');
+        }
         $extraVars = [
             'order' => new DummyOrder($order),
-            'checkoutDate' => Carbon::parse($order->get_date_created()->date('Y-m-d')),
+            'checkoutDate' => Carbon::parse($orderDate),
         ];
 
         //choose to create either a delivery or a collection
@@ -115,7 +122,14 @@ trait OrderCasterTrait
                 $this->log('ExpressionLanguage syntax failed for key '.$mappingKey.$ex->getMessage(), 'error');
                 //resort to old-school methods for required fields
                 if ($mappingKey == 'date') {
-                    $delivery->date = $order->get_date_created()->date('Y-m-d');
+                    $orderDate = $order->get_date_created();
+                    if (is_null($orderDate)) {
+                        $this->log('order date was empty!', 'warning');
+                        $orderDate = date('Y-m-d');
+                    } else {
+                        $orderDate = $orderDate->date('Y-m-d');
+                    }
+                    $delivery->date = $orderDate;
                 } elseif ($mappingKey == 'address') {
                     $states = WC()->countries->get_states($order->get_shipping_country());
                     if (!empty($states)) {
