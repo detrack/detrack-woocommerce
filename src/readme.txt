@@ -44,6 +44,9 @@ You must already have a WooCommerce store set up on your WordPress installation 
 
 == Changelog ==
 
+= 1.6.4 =
+- Added a failsafe to address an issue where orders that (somehow) do not have a date will cause the plugin to crash. 
+
 = 1.6.3 =
 - The `sync_on_update` setting ("Automatically push to detrack on updating orders") will now affect **any** status transition, to allow allow users to push orders to Detrack in complete manual mode.
 
