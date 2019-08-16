@@ -12,6 +12,8 @@ Real-time tracking and electronic proof of delivery solution that allows you and
 
 == Description ==
 
+On Aug 20, 2019, we will deprecate support for this open source WooCommerce plugin. There will be no future updates beyond version 1.6.4. If you are currently using the plugin, you should still be able to use it as per before. We recommend that if you wish to establish or continue to establish an integration between WooCommerce and Detrack, you can refer to our API documentation to build your own integration.
+
 Want vital delivery information of all your orders at your fingertips?
 
 Why not allow your customers to track their WooCommerce orders themselves?

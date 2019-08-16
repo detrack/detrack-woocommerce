@@ -1,4 +1,6 @@
-![Logo](https://www.detrack.com/wp-content/uploads/2018/04/detrack-woocommerce-SQUARE-768x460.png)
+On Aug 20, 2019, we will deprecate support for this open source WooCommerce plugin. There will be no future updates beyond version 1.6.4. If you are currently using the plugin, you should still be able to use it as per before. We recommend that if you wish to establish or continue to establish an integration between WooCommerce and Detrack, you can refer to our API documentation to build your own integration.
+
+
 # Detrack-Woocommerce
 
 Woocommerce plugin for integration with Detrack. Automatically push your orders to your Detrack Dashboard and retrieve electronic Proof of Deliveries straight from your WooCommerce dashboard.
@@ -23,11 +25,6 @@ Upload your plugin to the Wordpress administration backend for installation, and
 
 * [detrack-core-php](https://github.com/detrack/detrack-core-php) - Core library for interacting with the Detrack API
 * [composer](https://getcomposer.org/) - Dependency Management
-
-## Contributing
-
-For bug reports or feature requests, please email support@detrack.com.
-Alternatively, if you're a developer, you're free to fork or open a pull request at your own calling.
 
 ## Authors
 
