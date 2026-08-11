@@ -2,7 +2,7 @@
 >
 > This repository was archived on **2026-08-11** and is now **read-only**.
 >
-> Last commit to the default branch: **2019-08-16** — 7 years before archiving. It was archived as part of an organisation-wide review of dormant
+> Last commit to the default branch: **2019-08-16** — 7.0 years before archiving. It was archived as part of an organisation-wide review of dormant
 > repositories. No further changes will be made here.
 >
 > The code remains available to clone and fork. An organisation owner can
