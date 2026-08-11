@@ -1,3 +1,15 @@
+> ## ⚠️ Archived
+>
+> This repository was archived on **2026-08-11** and is now **read-only**.
+>
+> Last commit to the default branch: **2019-08-16** — 7 years before archiving. It was archived as part of an organisation-wide review of dormant
+> repositories. No further changes will be made here.
+>
+> The code remains available to clone and fork. An organisation owner can
+> restore write access via *Settings → General → Danger Zone → Unarchive*.
+
+---
+
 On Aug 20, 2019, we will deprecate support for this open source WooCommerce plugin. There will be no future updates beyond version 1.6.4. If you are currently using the plugin, you should still be able to use it as per before. We recommend that if you wish to establish or continue to establish an integration between WooCommerce and Detrack, you can refer to our API documentation to build your own integration.
 
 
